@@ -213,6 +213,56 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider,
                 }
             }
         })
+        .state('pro', {
+            abstract: true,
+            url: "/pro",
+            templateUrl: "/inicio/content",
+            authorization: true
+        })
+        .state('pro.prospectos', {
+            url: "/prospectos",
+            templateUrl: "/partial/prospectus",
+            controller: 'prospectusCtrl',
+            data: { pageTitle: 'Prospectos' },
+            resolve: {
+                loadPlugin: function ($ocLazyLoad) {
+                    return $ocLazyLoad.load([
+                        {
+                            serie: true,
+                            files: ['assets/js/plugins/dataTables/datatables.min.js'
+                            ,'assets/css/plugins/dataTables/datatables.min.css']
+                        },
+                        {
+                            serie: true,
+                            name: 'datatables',
+                            files: ['assets/js/plugins/dataTables/angular-datatables.min.js']
+                        },
+                        {
+                            serie: true,
+                            name: 'datatables.buttons',
+                            files: ['assets/js/plugins/dataTables/angular-datatables.buttons.min.js']
+                        },
+                        {
+                            name: 'cgNotify',
+                            files: ['assets/css/plugins/angular-notify/angular-notify.min.css'
+                            ,'assets/js/plugins/angular-notify/angular-notify.min.js']
+                        },
+                        {
+                            files: ['assets/js/plugins/jasny/jasny-bootstrap.min.js'
+                            , 'assets/css/plugins/jasny/jasny-bootstrap.min.css' ]
+                        },
+                        {
+                            files: ['assets/js/plugins/moment/moment.min.js']
+                        },
+                        {
+                            name: 'datePicker',
+                            files: ['assets/css/plugins/datapicker/angular-datapicker.css',
+                            'assets/js/plugins/datapicker/angular-datepicker.js']
+                        }
+                    ]);
+                }
+            }
+        })
         .state('config', {
             abstract: true,
             url: "/config",

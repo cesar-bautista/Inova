@@ -63,8 +63,7 @@
             </div>
             <div class="col-xs-6 form-group">
                 <label>Empresa</label>
-                <select class="form-control" name="CompanyId" ng-model="companybranch_form.CompanyId"
-                    required="">
+                <select class="form-control" name="CompanyId" ng-model="companybranch_form.CompanyId" required="">
                     <option ng-repeat="company in companies" value="{{company.CompanyId}}">{{company.CompanyName}}</option>
                 </select>
                 <div class="m-t-xs" ng-show="companies.CompanyId.$invalid && companies.CompanyId.$dirty">

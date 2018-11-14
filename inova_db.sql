@@ -1,8 +1,8 @@
 -- --------------------------------------------------------
 -- Host:                         127.0.0.1
--- Versión del servidor:         5.7.19 - MySQL Community Server (GPL)
--- SO del servidor:              Win64
--- HeidiSQL Versión:             9.5.0.5293
+-- Server version:               5.7.19 - MySQL Community Server (GPL)
+-- Server OS:                    Win64
+-- HeidiSQL Version:             9.5.0.5293
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -12,13 +12,13 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 
 
--- Volcando estructura de base de datos para inova_db
+-- Dumping database structure for inova_db
 CREATE DATABASE IF NOT EXISTS `inova_db` /*!40100 DEFAULT CHARACTER SET latin1 */;
 USE `inova_db`;
 
--- Volcando estructura para tabla inova_db.companies
+-- Dumping structure for table inova_db.companies
 CREATE TABLE IF NOT EXISTS `companies` (
-  `CompanyId` int(11) NOT NULL,
+  `CompanyId` int(11) NOT NULL AUTO_INCREMENT,
   `Rfc` varchar(30) NOT NULL,
   `CompanyName` varchar(200) NOT NULL,
   `TradeName` varchar(200) NOT NULL,
@@ -29,17 +29,17 @@ CREATE TABLE IF NOT EXISTS `companies` (
   `Logo` varchar(100) NOT NULL,
   PRIMARY KEY (`CompanyId`),
   UNIQUE KEY `Rfc` (`Rfc`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
--- Volcando datos para la tabla inova_db.companies: ~1 rows (aproximadamente)
+-- Dumping data for table inova_db.companies: ~0 rows (approximately)
 /*!40000 ALTER TABLE `companies` DISABLE KEYS */;
 INSERT INTO `companies` (`CompanyId`, `Rfc`, `CompanyName`, `TradeName`, `Address`, `Phone`, `Email`, `WebsiteUrl`, `Logo`) VALUES
 	(1, 'BAPC1122339A0', 'Inova', 'Inova SA', 'CDMX', '1234567890', 'bapc.cesar@gmail.com', 'http://inova.com.mx', 'logo.png');
 /*!40000 ALTER TABLE `companies` ENABLE KEYS */;
 
--- Volcando estructura para tabla inova_db.companiesbranch
+-- Dumping structure for table inova_db.companiesbranch
 CREATE TABLE IF NOT EXISTS `companiesbranch` (
-  `CompanyBranchId` int(11) NOT NULL,
+  `CompanyBranchId` int(11) NOT NULL AUTO_INCREMENT,
   `CompanyBranchName` varchar(200) NOT NULL,
   `TradeName` varchar(200) NOT NULL,
   `Rfc` varchar(30) NOT NULL,
@@ -50,17 +50,17 @@ CREATE TABLE IF NOT EXISTS `companiesbranch` (
   `Logo` varchar(500) NOT NULL,
   `CompanyId` int(11) NOT NULL,
   PRIMARY KEY (`CompanyBranchId`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
--- Volcando datos para la tabla inova_db.companiesbranch: ~1 rows (aproximadamente)
+-- Dumping data for table inova_db.companiesbranch: ~0 rows (approximately)
 /*!40000 ALTER TABLE `companiesbranch` DISABLE KEYS */;
 INSERT INTO `companiesbranch` (`CompanyBranchId`, `CompanyBranchName`, `TradeName`, `Rfc`, `Address`, `Phone`, `Email`, `WebsiteUrl`, `Logo`, `CompanyId`) VALUES
 	(1, 'Sucursal 1', 'Sucursal 1', 'BAPC1122339A0', 'Address', '1234567890', 'bapc.cesar@gmail.com', 'http://sucursal.com.mx', 'Logo.png', 1);
 /*!40000 ALTER TABLE `companiesbranch` ENABLE KEYS */;
 
--- Volcando estructura para tabla inova_db.menu
+-- Dumping structure for table inova_db.menu
 CREATE TABLE IF NOT EXISTS `menu` (
-  `MenuId` int(11) NOT NULL,
+  `MenuId` int(11) NOT NULL AUTO_INCREMENT,
   `ParentId` int(11) DEFAULT '0',
   `Title` varchar(50) DEFAULT NULL,
   `Url` varchar(50) DEFAULT NULL,
@@ -69,9 +69,9 @@ CREATE TABLE IF NOT EXISTS `menu` (
   `Position` tinyint(4) DEFAULT NULL,
   `Bitwise` int(11) NOT NULL,
   PRIMARY KEY (`MenuId`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
 
--- Volcando datos para la tabla inova_db.menu: ~9 rows (aproximadamente)
+-- Dumping data for table inova_db.menu: ~10 rows (approximately)
 /*!40000 ALTER TABLE `menu` DISABLE KEYS */;
 INSERT INTO `menu` (`MenuId`, `ParentId`, `Title`, `Url`, `Group`, `Icon`, `Position`, `Bitwise`) VALUES
 	(1, 0, 'Inicio', 'app.home', 'app', 'fa-home', 1, 1),
@@ -79,37 +79,38 @@ INSERT INTO `menu` (`MenuId`, `ParentId`, `Title`, `Url`, `Group`, `Icon`, `Posi
 	(3, 2, 'Empresas', 'app.empresas', 'app', 'fa-building', 1, 4),
 	(4, 2, 'Sucursales', 'app.sucursales', 'app', 'fa-home', 2, 8),
 	(5, 2, 'Proveedores', 'app.proveedores', 'app', 'fa-truck ', 3, 16),
-	(6, 2, 'Productos', 'app.productos', 'app', 'fa-product-hunt ', 4, 32),
+	(6, 2, 'Productos', 'app.productos', 'app', 'fa-shopping-cart', 4, 32),
 	(7, 0, 'Configuración', '', 'config', 'fa-cog', 3, 64),
 	(8, 7, 'Usuarios', 'config.usuarios', 'config', 'fa-user', 1, 128),
-	(9, 7, 'Seo', 'config.seo', 'config', 'fa-area-chart', 2, 256);
+	(9, 7, 'Seo', 'config.seo', 'config', 'fa-area-chart', 2, 256),
+	(10, 0, 'Prospectos', 'pro.prospectos', 'pro', 'fa-folder-open-o', 3, 256);
 /*!40000 ALTER TABLE `menu` ENABLE KEYS */;
 
--- Volcando estructura para tabla inova_db.menugroups
+-- Dumping structure for table inova_db.menugroups
 CREATE TABLE IF NOT EXISTS `menugroups` (
-  `GroupId` int(11) NOT NULL,
+  `GroupId` int(11) NOT NULL AUTO_INCREMENT,
   `GroupName` varchar(50) NOT NULL,
   `Bitwise` int(11) NOT NULL,
   PRIMARY KEY (`GroupId`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
--- Volcando datos para la tabla inova_db.menugroups: ~2 rows (aproximadamente)
+-- Dumping data for table inova_db.menugroups: ~2 rows (approximately)
 /*!40000 ALTER TABLE `menugroups` DISABLE KEYS */;
 INSERT INTO `menugroups` (`GroupId`, `GroupName`, `Bitwise`) VALUES
 	(1, 'Administrador', 511),
-	(2, 'Grupo 1', 51);
+	(2, 'Grupo 1', 307);
 /*!40000 ALTER TABLE `menugroups` ENABLE KEYS */;
 
--- Volcando estructura para tabla inova_db.products
+-- Dumping structure for table inova_db.products
 CREATE TABLE IF NOT EXISTS `products` (
   `ProductId` int(11) NOT NULL AUTO_INCREMENT,
-  `ProductName` varchar(120) DEFAULT NULL,
-  `ProductDescription` varchar(1200) DEFAULT NULL,
-  `ProviderId` int(11) DEFAULT NULL,
+  `ProductName` varchar(120) NOT NULL,
+  `ProductDescription` varchar(1200) NOT NULL,
+  `ProviderId` int(11) NOT NULL,
   PRIMARY KEY (`ProductId`)
-) ENGINE=MyISAM AUTO_INCREMENT=150 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=150 DEFAULT CHARSET=latin1;
 
--- Volcando datos para la tabla inova_db.products: 148 rows
+-- Dumping data for table inova_db.products: ~148 rows (approximately)
 /*!40000 ALTER TABLE `products` DISABLE KEYS */;
 INSERT INTO `products` (`ProductId`, `ProductName`, `ProductDescription`, `ProviderId`) VALUES
 	(2, 'Hole N Shamee ', 'Hole N Shamee', 1),
@@ -262,14 +263,53 @@ INSERT INTO `products` (`ProductId`, `ProductName`, `ProductDescription`, `Provi
 	(149, 'Core Xt 46 ', 'Core Xt 46 ', 58);
 /*!40000 ALTER TABLE `products` ENABLE KEYS */;
 
--- Volcando estructura para tabla inova_db.providers
+-- Dumping structure for table inova_db.prospectus
+CREATE TABLE IF NOT EXISTS `prospectus` (
+  `ProspectuId` int(11) NOT NULL AUTO_INCREMENT,
+  `ProviderId` int(11) NOT NULL DEFAULT '0',
+  `ProductId` int(11) NOT NULL DEFAULT '0',
+  `StatusId` int(11) NOT NULL DEFAULT '0',
+  `Comments` varchar(2500) NOT NULL DEFAULT '0',
+  `RegisterDate` varchar(50) NOT NULL DEFAULT '0',
+  `RememberDate` varchar(50) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`ProspectuId`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+
+-- Dumping data for table inova_db.prospectus: ~0 rows (approximately)
+/*!40000 ALTER TABLE `prospectus` DISABLE KEYS */;
+INSERT INTO `prospectus` (`ProspectuId`, `ProviderId`, `ProductId`, `StatusId`, `Comments`, `RegisterDate`, `RememberDate`) VALUES
+	(1, 2, 6, 3, 'Prueba 1', '2018-11-13T06:00:00.000Z', '2018-11-13T06:00:00.000Z'),
+	(2, 1, 5, 2, 'Prueba 2', '2018-11-13', '2018-11-13');
+/*!40000 ALTER TABLE `prospectus` ENABLE KEYS */;
+
+-- Dumping structure for table inova_db.prospectusstatus
+CREATE TABLE IF NOT EXISTS `prospectusstatus` (
+  `StatusId` int(11) NOT NULL AUTO_INCREMENT,
+  `StatusName` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`StatusId`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+
+-- Dumping data for table inova_db.prospectusstatus: ~5 rows (approximately)
+/*!40000 ALTER TABLE `prospectusstatus` DISABLE KEYS */;
+INSERT INTO `prospectusstatus` (`StatusId`, `StatusName`) VALUES
+	(1, 'Calidad'),
+	(2, 'Legal'),
+	(3, 'Post'),
+	(4, 'Traducción'),
+	(5, 'Prueba'),
+	(6, 'Enviaron muestra'),
+	(7, 'Recibieron muestra'),
+	(8, 'Descartado');
+/*!40000 ALTER TABLE `prospectusstatus` ENABLE KEYS */;
+
+-- Dumping structure for table inova_db.providers
 CREATE TABLE IF NOT EXISTS `providers` (
   `ProviderId` int(11) NOT NULL AUTO_INCREMENT,
-  `ProviderName` varchar(170) DEFAULT NULL,
+  `ProviderName` varchar(170) NOT NULL,
   PRIMARY KEY (`ProviderId`)
-) ENGINE=MyISAM AUTO_INCREMENT=59 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=59 DEFAULT CHARSET=latin1;
 
--- Volcando datos para la tabla inova_db.providers: 58 rows
+-- Dumping data for table inova_db.providers: ~0 rows (approximately)
 /*!40000 ALTER TABLE `providers` DISABLE KEYS */;
 INSERT INTO `providers` (`ProviderId`, `ProviderName`) VALUES
 	(1, 'Advirtuoso'),
@@ -332,9 +372,9 @@ INSERT INTO `providers` (`ProviderId`, `ProviderName`) VALUES
 	(58, 'Your Products');
 /*!40000 ALTER TABLE `providers` ENABLE KEYS */;
 
--- Volcando estructura para tabla inova_db.users
+-- Dumping structure for table inova_db.users
 CREATE TABLE IF NOT EXISTS `users` (
-  `UserId` int(11) NOT NULL,
+  `UserId` int(11) NOT NULL AUTO_INCREMENT,
   `Name` varchar(150) NOT NULL,
   `Nick` varchar(50) DEFAULT NULL,
   `Email` varchar(50) NOT NULL,
@@ -345,25 +385,25 @@ CREATE TABLE IF NOT EXISTS `users` (
   `CompanyBranchId` int(11) NOT NULL,
   PRIMARY KEY (`UserId`),
   UNIQUE KEY `Email` (`Email`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
--- Volcando datos para la tabla inova_db.users: ~2 rows (aproximadamente)
+-- Dumping data for table inova_db.users: ~2 rows (approximately)
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
 INSERT INTO `users` (`UserId`, `Name`, `Nick`, `Email`, `Pasword`, `Photo`, `IsActive`, `GroupId`, `CompanyBranchId`) VALUES
 	(1, 'César Bautista Pérez', 'Chicharito', 'cesar@inova.com', '40bd001563085fc35165329ea1ff5c5ecbdbbeef', 'foto.png', b'1', 1, 1),
 	(2, 'Tania Rivas', 'Tania', 'tania@inova.com', '40bd001563085fc35165329ea1ff5c5ecbdbbeef', 'goto.png', b'1', 2, 1);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 
--- Volcando estructura para tabla inova_db.websiteseo
+-- Dumping structure for table inova_db.websiteseo
 CREATE TABLE IF NOT EXISTS `websiteseo` (
-  `WebsiteId` tinyint(4) NOT NULL,
+  `WebsiteId` tinyint(4) NOT NULL AUTO_INCREMENT,
   `GroupSeo` varchar(50) NOT NULL,
   `Name` varchar(50) NOT NULL,
   `Value` varchar(530) NOT NULL,
   PRIMARY KEY (`WebsiteId`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=latin1;
 
--- Volcando datos para la tabla inova_db.websiteseo: ~34 rows (aproximadamente)
+-- Dumping data for table inova_db.websiteseo: ~34 rows (approximately)
 /*!40000 ALTER TABLE `websiteseo` DISABLE KEYS */;
 INSERT INTO `websiteseo` (`WebsiteId`, `GroupSeo`, `Name`, `Value`) VALUES
 	(1, 'General', 'SITE_NAME', 'Inova'),

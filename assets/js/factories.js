@@ -123,6 +123,12 @@ function productFactory(baseFactory) {
             });
             return child.sendAjax();
         },
+        getbyprovider: function (id) {
+            child.ajaxSetup({
+                url: '/products/getbyprovider/' + id
+            });
+            return child.sendAjax();
+        },
         save: function (product) {
             child.ajaxSetup({
                 url: '/products/save',
@@ -166,6 +172,58 @@ function providerFactory(baseFactory) {
     }
 }
 
+function prospectuFactory(baseFactory) {
+    var child = Object.create(baseFactory);
+    return {
+        get: function () {
+            child.ajaxSetup({
+                url: '/prospectus/get'
+            });
+            return child.sendAjax();
+        },
+        save: function (branch) {
+            child.ajaxSetup({
+                url: '/prospectus/save',
+                data: branch
+            });
+            return child.sendAjax();
+        },
+        delete: function (branch) {
+            child.ajaxSetup({
+                url: '/prospectus/delete',
+                data: branch
+            });
+            return child.sendAjax();
+        }
+    }
+}
+
+function prospectustatusFactory(baseFactory) {
+    var child = Object.create(baseFactory);
+    return {
+        get: function () {
+            child.ajaxSetup({
+                url: '/prospectusstatus/get'
+            });
+            return child.sendAjax();
+        },
+        save: function (branch) {
+            child.ajaxSetup({
+                url: '/prospectusstatus/save',
+                data: branch
+            });
+            return child.sendAjax();
+        },
+        delete: function (branch) {
+            child.ajaxSetup({
+                url: '/prospectusstatus/delete',
+                data: branch
+            });
+            return child.sendAjax();
+        }
+    }
+}
+
 function seoFactory(baseFactory) {
     var child = Object.create(baseFactory);
     return {
@@ -193,4 +251,6 @@ angular.module('inspinia')
     .factory("companybranchFactory", companybranchFactory)
     .factory("productFactory", productFactory)    
     .factory("providerFactory", providerFactory)
+    .factory("prospectuFactory", prospectuFactory)
+    .factory("prospectustatusFactory", prospectustatusFactory)
     .factory("seoFactory", seoFactory);

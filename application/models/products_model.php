@@ -19,6 +19,19 @@ class Products_model extends CI_Model
 		return $result_array;
 	}
 
+	public function get_by_provider($id)
+	{
+		$this->db->select('PD.ProductId, PD.ProductName, PD.ProductDescription');
+		$this->db->from('products PD');
+		$this->db->where('PD.ProviderId =', $id);
+		$this->db->order_by('PD.ProductName');
+		$query = $this->db->get();
+
+		$result_array = $query->result_array();
+
+		return $result_array;
+	}
+	
 	public function save($data)
 	{
 		$datas = array(

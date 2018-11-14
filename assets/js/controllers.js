@@ -410,6 +410,119 @@ function productsCtrl($scope, $uibModal, DTOptionsBuilder, notify, productFactor
         // .withLanguage({ "sUrl": '/assets/js/plugins/dataTables/Spanish.json' });
 };
 
+function prospectusCtrl($scope, $uibModal, DTOptionsBuilder, notify, prospectuFactory, providerFactory, productFactory, prospectustatusFactory){
+    $scope.init = function() {
+        prospectuFactory.get().then(function (res) {
+            if (res.data && res.data.code == 1) {
+                $scope.prospectus = res.data.response.prospectus;
+            }
+        });
+    };
+
+    $scope.loadEdit = function(providerId) {
+        providerFactory.get().then(function (res) {
+            if (res.data && res.data.code == 1) {
+                $scope.providers = res.data.response.providers;
+            }
+        });
+
+        if(providerId){
+            $scope.OnProviderChange(providerId);
+        }
+
+        prospectustatusFactory.get().then(function (res) {
+            if (res.data && res.data.code == 1) {
+                $scope.status = res.data.response.status;
+            }
+        });
+    };
+
+    $scope.OnProviderChange = function (providerId) {
+        productFactory.getbyprovider(providerId).then(function (res) {
+            if (res.data && res.data.code == 1) {
+                $scope.products = res.data.response.products;
+            }
+        });
+    };
+    
+    $scope.addModal = function() {
+        $scope.form_name = 'Alta';
+        var edit_form = {};
+        $scope.prospectu_form = angular.copy(edit_form);
+        
+        $uibModal.open({
+            templateUrl: '/partial/prospectu',
+            controller: 'modalCtrl',
+            windowClass: 'animated fadeIn',
+            scope: $scope
+        });
+    };
+
+    $scope.editModal = function(prospectu) {
+        $scope.form_name = 'Edición';
+        var edit_form = {};
+		angular.copy(prospectu, edit_form);
+        $scope.prospectu_form = edit_form;
+        
+        $uibModal.open({
+            templateUrl: '/partial/prospectu',
+            controller: 'modalCtrl',
+            windowClass: 'animated fadeIn',
+            scope: $scope
+        });
+    };
+    
+    $scope.deleteModal = function(prospectu) {
+		if (confirm("Estás seguro de eliminar el registro?")) {
+            prospectuFactory.delete(prospectu).then(function (res) {
+                if (res.data && res.data.code == 1) {
+                    var index = $scope.prospectus.indexOf(prospectu);
+                    $scope.prospectus.splice(index, 1);
+                    notify({ message:'El registro se eliminó correctamente', classes: 'alert-success', templateUrl: 'inicio/notify' });
+                }
+            });
+		}
+    };
+
+    $scope.saveRecord = function(prospectu) {
+        prospectuFactory.save(prospectu).then(function (res) {
+            if (res.data && res.data.code == 1) {
+                if(res.data.response.prospectu.message.code === 0){
+                    if(prospectu.ProspectuId){
+                        var entity = $.grep($scope.prospectus, function(obj) { return obj.ProspectuId === prospectu.ProspectuId; })[0];
+                        var index = $scope.prospectus.indexOf(entity);
+                        $scope.prospectus[index] = res.data.response.prospectu.entity;
+                        notify({ message:'El registro se actualizó correctamente', classes: 'alert-success', templateUrl: 'inicio/notify' });
+                    }
+                    else{
+                        $scope.prospectus.push(res.data.response.prospectu.entity);
+                        notify({ message:'El registro se guardó correctamente', classes: 'alert-success', templateUrl: 'inicio/notify' });
+                    }
+                }
+            }
+        });
+	}
+
+    $scope.dtOptions = DTOptionsBuilder.newOptions()
+        .withDOM('<"html5buttons"B>lTfgitp')
+        .withButtons([
+            {extend: 'copy'},
+            {extend: 'csv'},
+            {extend: 'excel', title: 'ExampleFile'},
+            {extend: 'pdf', title: 'ExampleFile'},
+            {extend: 'print',
+                customize: function (win){
+                    $(win.document.body).addClass('white-bg');
+                    $(win.document.body).css('font-size', '10px');
+
+                    $(win.document.body).find('table')
+                        .addClass('compact')
+                        .css('font-size', 'inherit');
+                }
+            }
+        ]);
+};
+
 function modalCtrl ($scope, $uibModalInstance) {
     $scope.ok = function (data) {
         $scope.saveRecord(data);
@@ -456,4 +569,5 @@ angular
     .controller('companiesbranchCtrl', companiesbranchCtrl)
     .controller('providersCtrl', providersCtrl)
     .controller('productsCtrl', productsCtrl)
+    .controller('prospectusCtrl', prospectusCtrl)
     .controller('seoCtrl', seoCtrl);

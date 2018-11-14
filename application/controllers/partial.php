@@ -54,6 +54,16 @@ class Partial extends CI_Controller {
 		$this->template->partial_view('providers/edit');
 	}
 
+	public function prospectus()
+	{
+		$this->template->partial_view('prospectus/index');
+	}
+
+	public function prospectu()
+	{
+		$this->template->partial_view('prospectus/edit');
+	}
+
 	public function seo()
 	{
 		$this->template->partial_view('seo/index');
