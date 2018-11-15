@@ -26,7 +26,7 @@
             <div class="col-xs-6 form-group">
                 <label>Fecha registro</label>
                 <div class="input-group date">
-                    <input  type="datetime" class="form-control" date-time name="RegisterDate" ng-model="prospectu_form.RegisterDate"
+                    <input  type="datetime" class="form-control" date-time="" name="RegisterDate" ng-model="prospectu_form.RegisterDate"
                             view="date" auto-close="true" min-view="date" format="YYYY-MM-DD" required="">
                     <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                 </div>
@@ -37,7 +37,7 @@
             <div class="col-xs-6 form-group">
                 <label>Fecha recordatorio</label>
                 <div class="input-group date">
-                    <input  type="datetime" class="form-control" date-time name="RememberDate" ng-model="prospectu_form.RememberDate"
+                    <input  type="datetime" class="form-control" date-time="" name="RememberDate" ng-model="prospectu_form.RememberDate"
                             view="date" auto-close="true" min-view="date" format="YYYY-MM-DD" required="">
                     <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                 </div>

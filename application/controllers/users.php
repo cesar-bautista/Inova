@@ -24,9 +24,9 @@ class Users extends CI_Controller {
 			$token = explode(" ", $this->headers["Authorization"]);
 			$user = JWT::decode(trim($token[1],'"'));
 			
-			if($this->auth->checkUser($user->UserId, $user->Email) !== false)
+			if($this->auth->checkUser($user->userId, $user->email) !== false)
 			{
-				$menu = $this->users->get_menu($user->UserId, $user->Email);
+				$menu = $this->users->get_menu($user->userId, $user->email);
 				$items = $this->build_menu($menu, 0);
 
 				echo json_encode(

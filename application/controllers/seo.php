@@ -23,7 +23,7 @@ class Seo extends CI_Controller {
 			$token = explode(" ", $this->headers["Authorization"]);
 			$user = JWT::decode(trim($token[1],'"'));
 			
-			if($this->auth->checkUser($user->UserId, $user->Email) !== false)
+			if($this->auth->checkUser($user->userId, $user->email) !== false)
 			{
 				$seo = $this->seo->get_all();
 
@@ -51,7 +51,7 @@ class Seo extends CI_Controller {
 			$token = explode(" ", $this->headers["Authorization"]);
 			$user = JWT::decode(trim($token[1],'"'));
 			
-			if($this->auth->checkUser($user->UserId, $user->Email) !== false)
+			if($this->auth->checkUser($user->userId, $user->email) !== false)
 			{
 				$ajax_data = json_decode(file_get_contents('php://input'), true);
 				$seo = $this->seo->save($ajax_data);

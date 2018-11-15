@@ -23,16 +23,15 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider,
     $httpProvider.defaults.headers.get['Pragma'] = 'no-cache';
 
     $httpProvider.defaults.headers.common["X-Requested-With"] = 'XMLHttpRequest';
-    jwtInterceptorProvider.tokenGetter = ['jwtHelper', '$http', '$location', function(jwtHelper, $http, $location) {
-        var idToken = localStorage.getItem('JWT');
-        if(!idToken) return null;
-        if(jwtHelper.isTokenExpired(idToken)) {
+    jwtInterceptorProvider.tokenGetter = ['getCurrentUser', '$http', '$location', function(getCurrentUser, $http, $location) {
+        if(!getCurrentUser) return null;
+        if(getCurrentUser.isExpired) {
             return $http({
                 url: '/auth/refreshtoken',
                 skipAuthorization: true,
                 method: 'POST',
                 data: {
-                    token: idToken
+                    token: getCurrentUser.token
                 }
             }).then(function(res) {
                 if (res.data && res.data.code == 1) {
@@ -46,7 +45,7 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider,
             });
         }
         else {
-            return idToken;
+            return getCurrentUser.token;
         }
     }];
     jwtInterceptorProvider.forceHeadersUpdate = true;

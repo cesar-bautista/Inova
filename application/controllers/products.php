@@ -23,7 +23,7 @@ class Products extends CI_Controller {
 			$token = explode(" ", $this->headers["Authorization"]);
 			$user = JWT::decode(trim($token[1],'"'));
 			
-			if($this->auth->checkUser($user->UserId, $user->Email) !== false)
+			if($this->auth->checkUser($user->userId, $user->email) !== false)
 			{
 				$products = $this->products->get_all();
 
@@ -51,7 +51,7 @@ class Products extends CI_Controller {
 			$token = explode(" ", $this->headers["Authorization"]);
 			$user = JWT::decode(trim($token[1],'"'));
 			
-			if($this->auth->checkUser($user->UserId, $user->Email) !== false)
+			if($this->auth->checkUser($user->userId, $user->email) !== false)
 			{
 				$products = $this->products->get_by_provider($id);
 
@@ -79,7 +79,7 @@ class Products extends CI_Controller {
 			$token = explode(" ", $this->headers["Authorization"]);
 			$user = JWT::decode(trim($token[1],'"'));
 			
-			if($this->auth->checkUser($user->UserId, $user->Email) !== false)
+			if($this->auth->checkUser($user->userId, $user->email) !== false)
 			{
 				$ajax_data = json_decode(file_get_contents('php://input'), true);
 				$product = $this->products->save($ajax_data);
@@ -108,7 +108,7 @@ class Products extends CI_Controller {
 			$token = explode(" ", $this->headers["Authorization"]);
 			$user = JWT::decode(trim($token[1],'"'));
 			
-			if($this->auth->checkUser($user->UserId, $user->Email) !== false)
+			if($this->auth->checkUser($user->userId, $user->email) !== false)
 			{
 				$ajax_data = json_decode(file_get_contents('php://input'), true);
 				$product = $this->products->delete($ajax_data);

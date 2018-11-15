@@ -24,7 +24,7 @@ class Auth extends CI_Controller {
 				if($user !== false)
 				{
 					$user->iat = time();
-					$user->exp = time() + 30;
+					$user->exp = time() + 60;
 					$jwt = JWT::encode($user, '');
 					echo json_encode(
 						array(
@@ -55,10 +55,10 @@ class Auth extends CI_Controller {
 			$token = $ajax_data["token"];			
 			$user = JWT::decode(trim($token,'"'));
 
-			if($this->auth->checkUser($user->UserId, $user->Email) !== false)
+			if($this->auth->checkUser($user->userId, $user->email) !== false)
 			{
 				$user->iat = time();
-				$user->exp = time() + 30;
+				$user->exp = time() + 180;
 				$jwt = JWT::encode($user, '');
 
 				echo json_encode(

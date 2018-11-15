@@ -23,7 +23,7 @@ class Companiesbranch extends CI_Controller {
 			$token = explode(" ", $this->headers["Authorization"]);
 			$user = JWT::decode(trim($token[1],'"'));
 			
-			if($this->auth->checkUser($user->UserId, $user->Email) !== false)
+			if($this->auth->checkUser($user->userId, $user->email) !== false)
 			{
 				$branch = $this->branch->get_all();
 
@@ -51,7 +51,7 @@ class Companiesbranch extends CI_Controller {
 			$token = explode(" ", $this->headers["Authorization"]);
 			$user = JWT::decode(trim($token[1],'"'));
 			
-			if($this->auth->checkUser($user->UserId, $user->Email) !== false)
+			if($this->auth->checkUser($user->userId, $user->email) !== false)
 			{
 				$ajax_data = json_decode(file_get_contents('php://input'), true);
 				$branch = $this->branch->save($ajax_data);
@@ -80,7 +80,7 @@ class Companiesbranch extends CI_Controller {
 			$token = explode(" ", $this->headers["Authorization"]);
 			$user = JWT::decode(trim($token[1],'"'));
 			
-			if($this->auth->checkUser($user->UserId, $user->Email) !== false)
+			if($this->auth->checkUser($user->userId, $user->email) !== false)
 			{
 				$ajax_data = json_decode(file_get_contents('php://input'), true);
 				$branch = $this->branch->delete($ajax_data);

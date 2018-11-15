@@ -1,13 +1,13 @@
 <nav class="navbar-default navbar-static-side" role="navigation" ng-controller="navCtrl">
     <div class="sidebar-collapse" ng-init="init();">
         <ul side-navigation="" class="nav metismenu" id="side-menu">
-            <li class="nav-header">
+            <li class="nav-header text-center">
                 <div class="profile-element" uib-dropdown="">
-                    <img alt="image" class="img-circle" src="/assets/img/profile_small.jpg" />
+                    <img alt="Profile" class="img-circle" src="/assets/img/{{user.photo}}" />
                     <a uib-dropdown-toggle="" href="">
                         <span class="clear">
                             <span class="block m-t-xs">
-                                <strong class="font-bold">César Bautista</strong>
+                                <strong class="font-bold">{{user.nick}}</strong>
                             </span>
                         </span>
                     </a>

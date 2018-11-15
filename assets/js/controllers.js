@@ -25,17 +25,18 @@ function loginCtrl($scope, authFactory, store, $location) {
     }
 };
 
-function homeCtrl($scope, jwtHelper, store) {
-    // var token = store.get("token");
-    // var tokenPayload = jwtHelper.decodeToken(token);
-    // console.log(tokenPayload);
-    // $scope.user = tokenPayload;
+function homeCtrl() {
+
 };
 
-function navCtrl($scope, navFactory) {
+function navCtrl($scope, getCurrentUser, navFactory) {
     $scope.init = function() {
         navFactory.get().then(function (res) {
             if (res.data && res.data.code == 1) {
+                $scope.user = { 
+                    nick: getCurrentUser.nick,
+                    photo: getCurrentUser.photo
+                };
                 $scope.menu = res.data.response.menu;
             }            
         });
@@ -410,7 +411,7 @@ function productsCtrl($scope, $uibModal, DTOptionsBuilder, notify, productFactor
         // .withLanguage({ "sUrl": '/assets/js/plugins/dataTables/Spanish.json' });
 };
 
-function prospectusCtrl($scope, $uibModal, DTOptionsBuilder, notify, prospectuFactory, providerFactory, productFactory, prospectustatusFactory){
+function prospectusCtrl($scope, $uibModal, DTOptionsBuilder, notify, getCurrentUser, prospectuFactory, providerFactory, productFactory, prospectustatusFactory){
     $scope.init = function() {
         prospectuFactory.get().then(function (res) {
             if (res.data && res.data.code == 1) {
@@ -485,6 +486,8 @@ function prospectusCtrl($scope, $uibModal, DTOptionsBuilder, notify, prospectuFa
     };
 
     $scope.saveRecord = function(prospectu) {
+        prospectu.UserId = getCurrentUser.userId;
+        console.log(prospectu);
         prospectuFactory.save(prospectu).then(function (res) {
             if (res.data && res.data.code == 1) {
                 if(res.data.response.prospectu.message.code === 0){
@@ -555,11 +558,22 @@ function seoCtrl($scope, seoFactory) {
     };
 };
 
+function getCurrentUser(jwtHelper){
+    var token = localStorage.getItem('JWT');
+    if(token) {
+        var payload = jwtHelper.decodeToken(token);
+        payload.token = token;
+        payload.isExpired = jwtHelper.isTokenExpired(token);
+        return payload;
+    }
+    return null;
+}
 /*
  * Pass all functions into module
  */
 angular
     .module('inspinia')
+    .service("getCurrentUser", getCurrentUser)
     .controller('MainCtrl', MainCtrl)
     .controller('modalCtrl', modalCtrl)
     .controller('loginCtrl', loginCtrl)

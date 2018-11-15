@@ -9,7 +9,7 @@ class Auth_model extends CI_Model
 
 	public function login($email, $password)
 	{
-		$query = $this->db->select("UserId, Email")
+		$query = $this->db->select("userId, email, nick, photo")
 		->from("users")
 		->where("Email", $email)
         ->where("Pasword", sha1($password))
