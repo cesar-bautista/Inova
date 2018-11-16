@@ -49,7 +49,9 @@ CREATE TABLE IF NOT EXISTS `companiesbranch` (
   `WebsiteUrl` varchar(500) NOT NULL,
   `Logo` varchar(500) NOT NULL,
   `CompanyId` int(11) NOT NULL,
-  PRIMARY KEY (`CompanyBranchId`)
+  PRIMARY KEY (`CompanyBranchId`),
+  KEY `companiesbranch_companies` (`CompanyId`),
+  CONSTRAINT `companiesbranch_companies` FOREIGN KEY (`CompanyId`) REFERENCES `companies` (`CompanyId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 -- Dumping data for table inova_db.companiesbranch: ~0 rows (approximately)
@@ -107,7 +109,9 @@ CREATE TABLE IF NOT EXISTS `products` (
   `ProductName` varchar(120) NOT NULL,
   `ProductDescription` varchar(1200) NOT NULL,
   `ProviderId` int(11) NOT NULL,
-  PRIMARY KEY (`ProductId`)
+  PRIMARY KEY (`ProductId`),
+  KEY `products_providers` (`ProviderId`),
+  CONSTRAINT `products_providers` FOREIGN KEY (`ProviderId`) REFERENCES `providers` (`ProviderId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=150 DEFAULT CHARSET=latin1;
 
 -- Dumping data for table inova_db.products: ~148 rows (approximately)
@@ -266,20 +270,31 @@ INSERT INTO `products` (`ProductId`, `ProductName`, `ProductDescription`, `Provi
 -- Dumping structure for table inova_db.prospectus
 CREATE TABLE IF NOT EXISTS `prospectus` (
   `ProspectuId` int(11) NOT NULL AUTO_INCREMENT,
+  `UserId` int(11) NOT NULL DEFAULT '0',
   `ProviderId` int(11) NOT NULL DEFAULT '0',
   `ProductId` int(11) NOT NULL DEFAULT '0',
   `StatusId` int(11) NOT NULL DEFAULT '0',
   `Comments` varchar(2500) NOT NULL DEFAULT '0',
   `RegisterDate` varchar(50) NOT NULL DEFAULT '0',
   `RememberDate` varchar(50) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`ProspectuId`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+  PRIMARY KEY (`ProspectuId`),
+  KEY `prospectus_prospectusstatus` (`StatusId`),
+  KEY `prospectus_providers` (`ProviderId`),
+  KEY `prospectus_products` (`ProductId`),
+  KEY `prospectus_users` (`UserId`),
+  CONSTRAINT `prospectus_products` FOREIGN KEY (`ProductId`) REFERENCES `products` (`ProductId`),
+  CONSTRAINT `prospectus_prospectusstatus` FOREIGN KEY (`StatusId`) REFERENCES `prospectusstatus` (`StatusId`),
+  CONSTRAINT `prospectus_providers` FOREIGN KEY (`ProviderId`) REFERENCES `providers` (`ProviderId`),
+  CONSTRAINT `prospectus_users` FOREIGN KEY (`UserId`) REFERENCES `users` (`UserId`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
--- Dumping data for table inova_db.prospectus: ~0 rows (approximately)
+-- Dumping data for table inova_db.prospectus: ~4 rows (approximately)
 /*!40000 ALTER TABLE `prospectus` DISABLE KEYS */;
-INSERT INTO `prospectus` (`ProspectuId`, `ProviderId`, `ProductId`, `StatusId`, `Comments`, `RegisterDate`, `RememberDate`) VALUES
-	(1, 2, 6, 3, 'Prueba 1', '2018-11-13T06:00:00.000Z', '2018-11-13T06:00:00.000Z'),
-	(2, 1, 5, 2, 'Prueba 2', '2018-11-13', '2018-11-13');
+INSERT INTO `prospectus` (`ProspectuId`, `UserId`, `ProviderId`, `ProductId`, `StatusId`, `Comments`, `RegisterDate`, `RememberDate`) VALUES
+	(1, 1, 2, 6, 1, 'Prueba 1', '2018-11-13T06:00:00.000Z', '2018-11-17T06:00:00.000Z'),
+	(2, 1, 1, 5, 2, 'Prueba 2', '2018-11-13T06:00:00.000Z', '2018-11-13T06:00:00.000Z'),
+	(3, 1, 5, 10, 3, 'Prueba 3', '2018-11-16T06:00:00.000Z', '2018-11-17T06:00:00.000Z'),
+	(4, 1, 1, 2, 5, 'Prueba 4', '1899-12-31T06:00:00.000Z', '1899-12-31T06:00:00.000Z');
 /*!40000 ALTER TABLE `prospectus` ENABLE KEYS */;
 
 -- Dumping structure for table inova_db.prospectusstatus
@@ -289,7 +304,7 @@ CREATE TABLE IF NOT EXISTS `prospectusstatus` (
   PRIMARY KEY (`StatusId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 
--- Dumping data for table inova_db.prospectusstatus: ~5 rows (approximately)
+-- Dumping data for table inova_db.prospectusstatus: ~8 rows (approximately)
 /*!40000 ALTER TABLE `prospectusstatus` DISABLE KEYS */;
 INSERT INTO `prospectusstatus` (`StatusId`, `StatusName`) VALUES
 	(1, 'Calidad'),
@@ -309,7 +324,7 @@ CREATE TABLE IF NOT EXISTS `providers` (
   PRIMARY KEY (`ProviderId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=59 DEFAULT CHARSET=latin1;
 
--- Dumping data for table inova_db.providers: ~0 rows (approximately)
+-- Dumping data for table inova_db.providers: ~58 rows (approximately)
 /*!40000 ALTER TABLE `providers` DISABLE KEYS */;
 INSERT INTO `providers` (`ProviderId`, `ProviderName`) VALUES
 	(1, 'Advirtuoso'),
@@ -375,8 +390,8 @@ INSERT INTO `providers` (`ProviderId`, `ProviderName`) VALUES
 -- Dumping structure for table inova_db.users
 CREATE TABLE IF NOT EXISTS `users` (
   `UserId` int(11) NOT NULL AUTO_INCREMENT,
-  `Name` varchar(150) NOT NULL,
-  `Nick` varchar(50) DEFAULT NULL,
+  `UserName` varchar(150) NOT NULL,
+  `NickName` varchar(50) DEFAULT NULL,
   `Email` varchar(50) NOT NULL,
   `Pasword` varchar(120) NOT NULL,
   `Photo` varchar(30) DEFAULT NULL,
@@ -384,14 +399,18 @@ CREATE TABLE IF NOT EXISTS `users` (
   `GroupId` int(11) NOT NULL,
   `CompanyBranchId` int(11) NOT NULL,
   PRIMARY KEY (`UserId`),
-  UNIQUE KEY `Email` (`Email`)
+  UNIQUE KEY `Email` (`Email`),
+  KEY `users_menugroups` (`GroupId`),
+  KEY `users_companiesbranch` (`CompanyBranchId`),
+  CONSTRAINT `users_companiesbranch` FOREIGN KEY (`CompanyBranchId`) REFERENCES `companiesbranch` (`CompanyBranchId`),
+  CONSTRAINT `users_menugroups` FOREIGN KEY (`GroupId`) REFERENCES `menugroups` (`GroupId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 -- Dumping data for table inova_db.users: ~2 rows (approximately)
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` (`UserId`, `Name`, `Nick`, `Email`, `Pasword`, `Photo`, `IsActive`, `GroupId`, `CompanyBranchId`) VALUES
-	(1, 'César Bautista Pérez', 'Chicharito', 'cesar@inova.com', '40bd001563085fc35165329ea1ff5c5ecbdbbeef', 'foto.png', b'1', 1, 1),
-	(2, 'Tania Rivas', 'Tania', 'tania@inova.com', '40bd001563085fc35165329ea1ff5c5ecbdbbeef', 'goto.png', b'1', 2, 1);
+INSERT INTO `users` (`UserId`, `UserName`, `NickName`, `Email`, `Pasword`, `Photo`, `IsActive`, `GroupId`, `CompanyBranchId`) VALUES
+	(1, 'César Bautista Pérez', 'Chicharito', 'cesar@inova.com', '40bd001563085fc35165329ea1ff5c5ecbdbbeef', 'a2.jpg', b'1', 1, 1),
+	(2, 'Tania Rivas', 'Tania', 'tania@inova.com', '40bd001563085fc35165329ea1ff5c5ecbdbbeef', 'a3.jpg', b'1', 2, 1);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 
 -- Dumping structure for table inova_db.websiteseo

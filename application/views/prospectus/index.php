@@ -29,18 +29,22 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Fecha registro</th>
-                                <th>Fecha recordatorio</th>
-                                <th>Comentarios</th>
+                                <th>Usuario</th>
+                                <th>Proveedor</th>
+                                <th>Producto</th>
+                                <th>Recordatorio</th>
+                                <th>Status</th>
                                 <th></th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr ng-repeat="prospectu in prospectus">
                                 <td>{{ prospectu.ProspectuId }}</td>
-                                <td>{{ prospectu.RegisterDate }}</td>
+                                <td>{{ prospectu.UserName }}</td>
+                                <td>{{ prospectu.ProviderName }}</td>
+                                <td>{{ prospectu.ProductName }}</td>
                                 <td>{{ prospectu.RememberDate }}</td>
-                                <td>{{ prospectu.Comments }}</td>
+                                <td>{{ prospectu.StatusName }}</td>
                                 <td class="text-center">
                                     <button class="btn btn-info btn-circle" type="button" ng-click="editModal(prospectu);">
                                         <i class="fa fa-eye"></i>

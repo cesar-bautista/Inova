@@ -7,7 +7,7 @@
                     <a uib-dropdown-toggle="" href="">
                         <span class="clear">
                             <span class="block m-t-xs">
-                                <strong class="font-bold">{{user.nick}}</strong>
+                                <strong class="font-bold">{{user.nickName}}</strong>
                             </span>
                         </span>
                     </a>

@@ -34,7 +34,7 @@ function navCtrl($scope, getCurrentUser, navFactory) {
         navFactory.get().then(function (res) {
             if (res.data && res.data.code == 1) {
                 $scope.user = { 
-                    nick: getCurrentUser.nick,
+                    nickName: getCurrentUser.nickName,
                     photo: getCurrentUser.photo
                 };
                 $scope.menu = res.data.response.menu;
@@ -487,7 +487,6 @@ function prospectusCtrl($scope, $uibModal, DTOptionsBuilder, notify, getCurrentU
 
     $scope.saveRecord = function(prospectu) {
         prospectu.UserId = getCurrentUser.userId;
-        console.log(prospectu);
         prospectuFactory.save(prospectu).then(function (res) {
             if (res.data && res.data.code == 1) {
                 if(res.data.response.prospectu.message.code === 0){
@@ -562,8 +561,8 @@ function getCurrentUser(jwtHelper){
     var token = localStorage.getItem('JWT');
     if(token) {
         var payload = jwtHelper.decodeToken(token);
-        payload.token = token;
         payload.isExpired = jwtHelper.isTokenExpired(token);
+        payload.token = token;
         return payload;
     }
     return null;

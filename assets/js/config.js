@@ -25,7 +25,7 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider,
     $httpProvider.defaults.headers.common["X-Requested-With"] = 'XMLHttpRequest';
     jwtInterceptorProvider.tokenGetter = ['getCurrentUser', '$http', '$location', function(getCurrentUser, $http, $location) {
         if(!getCurrentUser) return null;
-        if(getCurrentUser.isExpired) {
+        if(getCurrentUser.isExpired === true) {
             return $http({
                 url: '/auth/refreshtoken',
                 skipAuthorization: true,
