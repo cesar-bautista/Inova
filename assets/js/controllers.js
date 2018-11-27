@@ -54,8 +54,7 @@ function companiesCtrl($scope, $uibModal, DTOptionsBuilder, notify, companyFacto
     
     $scope.addModal = function() {
         $scope.form_name = 'Alta';
-        var edit_form = {};
-        $scope.company_form = angular.copy(edit_form);
+        $scope.company_form = {};
         
         $uibModal.open({
             templateUrl: '/partial/company',
@@ -150,8 +149,7 @@ function companiesbranchCtrl($scope, $uibModal, DTOptionsBuilder, notify, compan
     
     $scope.addModal = function() {
         $scope.form_name = 'Alta';
-        var edit_form = {};
-        $scope.companybranch_form = angular.copy(edit_form);
+        $scope.companybranch_form = {};
         
         $uibModal.open({
             templateUrl: '/partial/companybranch',
@@ -238,8 +236,7 @@ function providersCtrl($scope, $uibModal, DTOptionsBuilder, notify, providerFact
     
     $scope.addModal = function() {
         $scope.form_name = 'Alta';
-        var edit_form = {};
-        $scope.provider_form = angular.copy(edit_form);
+        $scope.provider_form = {};
         
         $uibModal.open({
             templateUrl: '/partial/provider',
@@ -334,8 +331,7 @@ function productsCtrl($scope, $uibModal, DTOptionsBuilder, notify, productFactor
 
     $scope.addModal = function() {
         $scope.form_name = 'Alta';
-        var edit_form = {};
-        $scope.product_form = angular.copy(edit_form);
+        $scope.product_form = {};
         
         $uibModal.open({
             templateUrl: '/partial/product',
@@ -448,8 +444,10 @@ function prospectusCtrl($scope, $uibModal, DTOptionsBuilder, notify, getCurrentU
     
     $scope.addModal = function() {
         $scope.form_name = 'Alta';
-        var edit_form = {};
-        $scope.prospectu_form = angular.copy(edit_form);
+        $scope.prospectu_form = {
+            RegisterDate : moment().toDate(),
+            RememberDate : moment().toDate()
+        };
         
         $uibModal.open({
             templateUrl: '/partial/prospectu',

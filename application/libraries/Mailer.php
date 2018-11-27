@@ -2,7 +2,7 @@
 
 class Mailer {
 
-    function Mailer()
+    public function __construct()
     {
         $this->CI =& get_instance();
         $this->CI->load->library('email');
@@ -13,9 +13,9 @@ class Mailer {
         $this->CI->email->initialize(array(
 			'protocol' => 'smtp',
 			'smtp_crypto' => 'ssl',
-			'smtp_host' => 'servidor1194.il.controladordns.com',
-			'smtp_user' => 'webmaster@ventermac.com.mx',
-			'smtp_pass' => '7usDfDfC+',
+			'smtp_host' => 'controladordns.com',
+			'smtp_user' => 'user@inova.com',
+			'smtp_pass' => 'pass',
 			'smtp_port' => 465,
 			'mailtype' => 'html',
 			'charset' => 'utf-8',
@@ -24,10 +24,10 @@ class Mailer {
 			'newline' => "\r\n"
 		));
 		
-		$this->CI->email->from('ventas@ventermac.com.mx', 'Ventermac');
-		$this->CI->email->to("ventas@ventermac.com.mx");
-		//$this->CI->email->cc('another@ventermac.com.mx');
-		$this->CI->email->bcc('webmaster@ventermac.com.mx');
+		$this->CI->email->from('cesar@inova.com', 'Message');
+		$this->CI->email->to("cesar@inova.com");
+		$this->CI->email->cc('another@ventermac.com.mx');
+		$this->CI->email->bcc('webmaster@inova.com');
 		$this->CI->email->subject($subject);
 		$this->CI->email->message($msg);
 		

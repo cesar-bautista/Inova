@@ -107,11 +107,11 @@
                     <i class="fa fa-sign-out"></i> Salir
                 </a>
             </li>
-            <li>
+            <!-- <li>
                 <a ng-click="$root.rightSidebar = !$root.rightSidebar">
                     <i class="fa fa-tasks"></i>
                 </a>
-            </li>
+            </li> -->
         </ul>
 
     </nav>

@@ -13,10 +13,17 @@ class Products_model extends CI_Model
 		$this->db->join('providers PV', 'PD.ProviderId = PV.ProviderId');
 		$this->db->order_by('PD.ProductName');
 		$query = $this->db->get();
+		return $query->result_array();
+	}
 
-		$result_array = $query->result_array();
-
-		return $result_array;
+	public function get_by_id($id)
+	{
+		$this->db->select('PD.ProductId, PD.ProductName, PD.ProductDescription, PV.ProviderId, PV.ProviderName');
+		$this->db->from('products PD'); 
+		$this->db->join('providers PV', 'PD.ProviderId = PV.ProviderId');
+		$this->db->where('PD.ProductId', $id);
+		$query = $this->db->get();
+		return $query->row_array();
 	}
 
 	public function get_by_provider($id)
@@ -26,16 +33,12 @@ class Products_model extends CI_Model
 		$this->db->where('PD.ProviderId =', $id);
 		$this->db->order_by('PD.ProductName');
 		$query = $this->db->get();
-
-		$result_array = $query->result_array();
-
-		return $result_array;
+		return $query->result_array();
 	}
 	
 	public function save($data)
 	{
 		$datas = array(
-			"ProductId" => $data["ProductId"],
 			"ProductName" => $data["ProductName"],
 			"ProductDescription" => $data["ProductDescription"],
 			"ProviderId" => $data["ProviderId"]
@@ -54,7 +57,7 @@ class Products_model extends CI_Model
 
 		return array(
 					'message' => $this->db->error(),
-					'entity' => $data
+					'entity' => $this->get_by_id($data["ProductId"])
 					);
 	}
 

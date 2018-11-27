@@ -2,7 +2,7 @@
 
 class Template {
 	
-	function Template()
+	public function __construct()
 	{
 		$this->CI =& get_instance();
     }

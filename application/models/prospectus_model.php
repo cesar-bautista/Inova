@@ -20,10 +20,23 @@ class Prospectus_model extends CI_Model
 		return $query->result_array();
 	}
 
+	public function get_by_id($id)
+	{
+		$this->db->select('PP.*, US.UserName, PV.ProviderName, PD.ProductName, PS.StatusName');
+		$this->db->from('prospectus PP'); 
+		$this->db->join('users US', 'US.UserId = PP.UserId');
+		$this->db->join('providers PV', 'PV.ProviderId = PP.ProviderId');
+		$this->db->join('products PD', 'PD.ProductId = PP.ProductId');
+		$this->db->join('prospectusstatus PS', 'PS.StatusId = PP.StatusId');		
+		$this->db->where('PP.ProspectuId', $id);
+		$query = $this->db->get();
+
+		return $query->row_array();
+	}
+
 	public function save($data)
 	{
 		$datas = array(
-			"ProspectuId" => $data["ProspectuId"],
 			"UserId" => $data["UserId"],
 			"ProviderId" => $data["ProviderId"],
 			"ProductId" => $data["ProductId"],
@@ -43,10 +56,10 @@ class Prospectus_model extends CI_Model
 			$this->db->where('ProspectuId', $data["ProspectuId"]);
 			$this->db->update('prospectus', $datas);
 		}
-
+		
 		return array(
 					'message' => $this->db->error(),
-					'entity' => $data
+					'entity' => $this->get_by_id($data["ProspectuId"])
 					);
 	}
 
