@@ -50,11 +50,11 @@ function authFactory(baseFactory) {
 function navFactory(baseFactory) {
     var child = Object.create(baseFactory);
     return {
-        get: function () {
+        get: function (token) {
             child.ajaxSetup({
                 url: '/users/menu',
                 headers: {
-                    'Authorization': 'Bearer ' + localStorage.getItem('JWT')
+                    'Authorization': 'Bearer ' + token
                 }
             });
             return child.sendAjax();

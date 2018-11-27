@@ -1,6 +1,6 @@
 function MainCtrl($http) {};
 
-function loginCtrl($scope, authFactory, store, $location) {
+function loginCtrl($scope, authFactory, $location, key_token) {
     $scope.user = {
         email : "",
         password : "",
@@ -8,12 +8,12 @@ function loginCtrl($scope, authFactory, store, $location) {
     };
     $scope.message = "";
     
-    store.remove('JWT');
+    localStorage.removeItem(key_token);
 
     $scope.login = function (user) {
         authFactory.login(user).then(function (res) {
             if (res.data && res.data.code == 1) {
-                store.set('JWT', res.data.response.token);
+                localStorage.setItem(key_token, res.data.response.token);
                 $location.path("/app/home");
             }
             else
@@ -29,13 +29,15 @@ function homeCtrl() {
 
 };
 
-function navCtrl($scope, getCurrentUser, navFactory) {
+function navCtrl($scope, navFactory, key_token, jwtHelper) {
     $scope.init = function() {
-        navFactory.get().then(function (res) {
+        var token = localStorage.getItem(key_token);
+        navFactory.get(token).then(function (res) {
             if (res.data && res.data.code == 1) {
+                var payload = jwtHelper.decodeToken(token);
                 $scope.user = { 
-                    nickName: getCurrentUser.nickName,
-                    photo: getCurrentUser.photo
+                    nickName: payload.nickName,
+                    photo: payload.photo
                 };
                 $scope.menu = res.data.response.menu;
             }            
@@ -555,8 +557,8 @@ function seoCtrl($scope, seoFactory) {
     };
 };
 
-function getCurrentUser(jwtHelper){
-    var token = localStorage.getItem('JWT');
+function getCurrentUser(key_token, jwtHelper){
+    var token = localStorage.getItem(key_token);
     if(token) {
         var payload = jwtHelper.decodeToken(token);
         payload.isExpired = jwtHelper.isTokenExpired(token);

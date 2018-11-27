@@ -7,7 +7,7 @@
  *
  */
 function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, 
-    IdleProvider, $httpProvider, jwtInterceptorProvider) {
+    IdleProvider, $httpProvider, key_token, jwtInterceptorProvider) {
 
     // Configure Idle settings
     IdleProvider.idle(5); // in seconds
@@ -23,19 +23,20 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider,
     $httpProvider.defaults.headers.get['Pragma'] = 'no-cache';
 
     $httpProvider.defaults.headers.common["X-Requested-With"] = 'XMLHttpRequest';
-    jwtInterceptorProvider.tokenGetter = ['getCurrentUser', '$http', '$location', function(getCurrentUser, $http, $location) {
-        if(!getCurrentUser) return null;
-        if(getCurrentUser.isExpired === true) {
+    jwtInterceptorProvider.tokenGetter = ['jwtHelper', '$http', '$location', function(jwtHelper, $http, $location) {
+        var currentToken = localStorage.getItem(key_token);        
+        if(!currentToken) return null;
+        if(jwtHelper.isTokenExpired(currentToken) === true) {
             return $http({
                 url: '/auth/refreshtoken',
                 skipAuthorization: true,
                 method: 'POST',
                 data: {
-                    token: getCurrentUser.token
+                    token: currentToken
                 }
             }).then(function(res) {
                 if (res.data && res.data.code == 1) {
-                    localStorage.setItem('JWT', res.data.response.token);
+                    localStorage.setItem(key_token, res.data.response.token);
                     return res.data.response.token;
                 }
                 else
@@ -45,7 +46,7 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider,
             });
         }
         else {
-            return getCurrentUser.token;
+            return currentToken;
         }
     }];
     jwtInterceptorProvider.forceHeadersUpdate = true;
@@ -296,6 +297,7 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider,
 angular
     .module('inspinia')
     .config(config)
+    .constant("key_token", "JWT")
     .run(function ($rootScope, $state) {
         $rootScope.$state = $state;
     });
