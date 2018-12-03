@@ -28,12 +28,19 @@
         </ul>
 
         <script type="text/ng-template" id="nodes_renderer.html">
-            <a ui-sref="{{node.url || ' ' }}">
+            <a href="#" ng-if="!node.url">
                 <i class="fa fa-lg {{node.icon}}"></i>
                 <span class="nav-label">{{node.title}}</span>
                 <span ng-class="{'fa arrow' : node.nodes.length > 0}"></span>
             </a>
-            <ul class="nav nav-second-level" ng-class="{in: $state.includes('{{node.group}}')}">
+
+            <a ui-sref="{{node.url || ' ' }}" ng-if="node.url">
+                <i class="fa fa-lg {{node.icon}}"></i>
+                <span class="nav-label">{{node.title}}</span>
+                <span ng-class="{'fa arrow' : node.nodes.length > 0}"></span>
+            </a>
+
+            <ul class="nav nav-second-level" ng-if="!node.url" ng-class="{in: $state.includes('{{node.group}}')}">
                 <li ui-sref-active="active" ng-repeat="node in node.nodes" ng-include="'nodes_renderer.html'"></li>
             </ul>
         </script>

@@ -1,11 +1,19 @@
-function baseFactory($q, $http) {
+function baseFactory($q, $http, key_token, jwtHelper) {
+    var token = localStorage.getItem(key_token);
+    var payload = jwtHelper.decodeToken(token);
+    console.log("FAC", payload.exp);
     var settings = {
         method: 'POST',
         skipAuthorization: false,
         url: '',
         data: {},
         headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'cache-control': 'no-cache, no-store, must-revalidate',
+            'Pragma': 'no-cache',
+            'Expires': '-1',
+            'If-Modified-Since': '0',
+            'Authorization': 'Bearer ' + token
         }
     };
 
@@ -50,12 +58,9 @@ function authFactory(baseFactory) {
 function navFactory(baseFactory) {
     var child = Object.create(baseFactory);
     return {
-        get: function (token) {
+        get: function () {
             child.ajaxSetup({
-                url: '/users/menu',
-                headers: {
-                    'Authorization': 'Bearer ' + token
-                }
+                url: '/users/menu'
             });
             return child.sendAjax();
         }

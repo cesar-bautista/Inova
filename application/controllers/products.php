@@ -2,127 +2,79 @@
 
 class Products extends CI_Controller {
 
-	protected $headers;
-
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model("auth_model", "auth");
 		$this->load->model("Products_model", "products");
-		$this->headers = apache_request_headers();
 	}
 
 	public function get()
 	{
-		if(!isset($this->headers["Authorization"]) || empty($this->headers["Authorization"]))
+		if(is_object(AUTHORIZATION::validateToken()))
 		{
-			echo json_encode(array("code" => 0, "response" => "Es necesario volver a iniciar sesión"));
-		}
-		else
-		{
-			$token = explode(" ", $this->headers["Authorization"]);
-			$user = JWT::decode(trim($token[1],'"'));
-			
-			if($this->auth->checkUser($user->userId, $user->email) !== false)
-			{
-				$products = $this->products->get_all();
+			$products = $this->products->get_all();
 
-				echo json_encode(
-					array(
-						"code" => 1, 
-						"response" => array(
-							"products"=> $products
-						)
+			echo json_encode(
+				array(
+					"code" => 1, 
+					"response" => array(
+						"products"=> $products
 					)
-				);
-			}
-
+				)
+			);
 		}
 	}
 
 	public function getbyprovider($id)
 	{
-		if(!isset($this->headers["Authorization"]) || empty($this->headers["Authorization"]))
+		if(is_object(AUTHORIZATION::validateToken()))
 		{
-			echo json_encode(array("code" => 0, "response" => "Es necesario volver a iniciar sesión"));
-		}
-		else
-		{
-			$token = explode(" ", $this->headers["Authorization"]);
-			$user = JWT::decode(trim($token[1],'"'));
-			
-			if($this->auth->checkUser($user->userId, $user->email) !== false)
-			{
-				$products = $this->products->get_by_provider($id);
+			$products = $this->products->get_by_provider($id);
 
-				echo json_encode(
-					array(
-						"code" => 1, 
-						"response" => array(
-							"products"=> $products
-						)
+			echo json_encode(
+				array(
+					"code" => 1, 
+					"response" => array(
+						"products"=> $products
 					)
-				);
-			}
-
+				)
+			);
 		}
 	}
 
 	public function save()
 	{
-		if(!isset($this->headers["Authorization"]) || empty($this->headers["Authorization"]))
+		if(is_object(AUTHORIZATION::validateToken()))
 		{
-			echo json_encode(array("code" => 0, "response" => "Es necesario volver a iniciar sesión"));
-		}
-		else
-		{
-			$token = explode(" ", $this->headers["Authorization"]);
-			$user = JWT::decode(trim($token[1],'"'));
-			
-			if($this->auth->checkUser($user->userId, $user->email) !== false)
-			{
-				$ajax_data = json_decode(file_get_contents('php://input'), true);
-				$product = $this->products->save($ajax_data);
+			$ajax_data = json_decode(file_get_contents('php://input'), true);
+			$product = $this->products->save($ajax_data);
 
-				echo json_encode(
-					array(
-						"code" => 1, 
-						"response" => array(
-							"product"=> $product
-						)
+			echo json_encode(
+				array(
+					"code" => 1, 
+					"response" => array(
+						"product"=> $product
 					)
-				);
-			}
-
+				)
+			);
 		}
 	}
 
 	public function delete()
 	{
-		if(!isset($this->headers["Authorization"]) || empty($this->headers["Authorization"]))
+		if(is_object(AUTHORIZATION::validateToken()))
 		{
-			echo json_encode(array("code" => 0, "response" => "Es necesario volver a iniciar sesión"));
-		}
-		else
-		{
-			$token = explode(" ", $this->headers["Authorization"]);
-			$user = JWT::decode(trim($token[1],'"'));
-			
-			if($this->auth->checkUser($user->userId, $user->email) !== false)
-			{
-				$ajax_data = json_decode(file_get_contents('php://input'), true);
-				$product = $this->products->delete($ajax_data);
+			$ajax_data = json_decode(file_get_contents('php://input'), true);
+			$product = $this->products->delete($ajax_data);
 
-				echo json_encode(
-					array(
-						"code" => 1, 
-						"response" => array(
-							"product"=> $product
-						)
+			echo json_encode(
+				array(
+					"code" => 1, 
+					"response" => array(
+						"product"=> $product
 					)
-				);
-			}
-
+				)
+			);
 		}
 	}
 }

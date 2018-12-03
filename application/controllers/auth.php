@@ -5,8 +5,6 @@ class Auth extends CI_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model("auth_model", "auth");
-		$this->headers = apache_request_headers();
 	}
 
 	public function login()
@@ -20,12 +18,10 @@ class Auth extends CI_Controller {
 				echo json_encode(array("code" => 0, "response" => "Datos insuficientes"));
 			else
 			{
-				$user = $this->auth->login($email, $password);
+				$user = AUTHORIZATION::loginUser($email, $password);
 				if($user !== false)
 				{
-					$user->iat = time();
-					$user->exp = time() + 60;
-					$jwt = JWT::encode($user, '');
+					$jwt = AUTHORIZATION::encodeToken($user);
 					echo json_encode(
 						array(
 							"code" => 1,
@@ -53,14 +49,11 @@ class Auth extends CI_Controller {
 		{
 			$ajax_data = json_decode(file_get_contents('php://input'), true);
 			$token = $ajax_data["token"];			
-			$user = JWT::decode(trim($token,'"'));
-
-			if($this->auth->checkUser($user->userId, $user->email) !== false)
+			$decodedToken = AUTHORIZATION::decodeToken(trim($token,'"'));
+			
+			if(AUTHORIZATION::validateUser($decodedToken) == true)
 			{
-				$user->iat = time();
-				$user->exp = time() + 180;
-				$jwt = JWT::encode($user, '');
-
+				$jwt = AUTHORIZATION::encodeToken($decodedToken);
 				echo json_encode(
 					array(
 						"code" => 1,

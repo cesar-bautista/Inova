@@ -18,13 +18,17 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider,
     }
     //disable IE ajax request caching
     $httpProvider.defaults.headers.get['If-Modified-Since'] = 'Mon, 26 Jul 1997 05:00:00 GMT';
+    $httpProvider.defaults.cache = false;
     // extra
     $httpProvider.defaults.headers.get['Cache-Control'] = 'no-cache';
     $httpProvider.defaults.headers.get['Pragma'] = 'no-cache';
+    $httpProvider.defaults.headers.common["Cache-Control"] = 'no-cache, no-store, must-revalidate';
+    $httpProvider.defaults.headers.common["Pragma"] = 'no-cache';
+    $httpProvider.defaults.headers.common["Expires"] = '0';
 
     $httpProvider.defaults.headers.common["X-Requested-With"] = 'XMLHttpRequest';
     jwtInterceptorProvider.tokenGetter = ['jwtHelper', '$http', '$location', function(jwtHelper, $http, $location) {
-        var currentToken = localStorage.getItem(key_token);        
+        var currentToken = localStorage.getItem(key_token);
         if(!currentToken) return null;
         if(jwtHelper.isTokenExpired(currentToken) === true) {
             return $http({
@@ -37,6 +41,8 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider,
             }).then(function(res) {
                 if (res.data && res.data.code == 1) {
                     localStorage.setItem(key_token, res.data.response.token);
+                    var payload = jwtHelper.decodeToken(res.data.response.token);
+                    console.log("CON", payload.exp);
                     return res.data.response.token;
                 }
                 else
@@ -46,6 +52,8 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider,
             });
         }
         else {
+            var payload = jwtHelper.decodeToken(currentToken);
+            console.log("CON", payload.exp);
             return currentToken;
         }
     }];

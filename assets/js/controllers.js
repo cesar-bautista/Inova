@@ -31,9 +31,9 @@ function homeCtrl() {
 
 function navCtrl($scope, navFactory, key_token, jwtHelper) {
     $scope.init = function() {
-        var token = localStorage.getItem(key_token);
-        navFactory.get(token).then(function (res) {
+        navFactory.get().then(function (res) {
             if (res.data && res.data.code == 1) {
+                var token = localStorage.getItem(key_token);
                 var payload = jwtHelper.decodeToken(token);
                 $scope.user = { 
                     nickName: payload.nickName,
@@ -45,9 +45,12 @@ function navCtrl($scope, navFactory, key_token, jwtHelper) {
     };
 };
 
-function companiesCtrl($scope, $uibModal, DTOptionsBuilder, notify, companyFactory){
+function companiesCtrl($scope, $uibModal, DTOptionsBuilder, notify, key_token, jwtHelper, companyFactory){
     $scope.init = function() {
         companyFactory.get().then(function (res) {
+            var token = localStorage.getItem(key_token);
+            var payload = jwtHelper.decodeToken(token);
+            console.log("INI", payload.exp);
             if (res.data && res.data.code == 1) {
                 $scope.companies = res.data.response.companies;
             }
