@@ -62,6 +62,26 @@
                     <small class="text-danger" ng-show="prospectu.Comments.$error.required">Campo obligatorio</small>
                 </div>
             </div>
+            <div class="ibox-content">
+                <table datatable="ng" dt-options="dtOptions" class="table table-striped table-bordered table-hover">
+                    <thead>
+                        <tr>                               
+                            <th>Comentario</th>
+                            <th>Feha</th>
+                            <th>Usuario</th>
+                            <th>Estus</th>                                          
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="hprospectu in historyprospectus">
+                            <td>{{ hprospectu.Comments }}</td>
+                            <td>{{ hprospectu.RegisterDate }}</td>
+                            <td>{{ hprospectu.UserName }}</td> 
+                            <td>{{ hprospectu.StatusName }}</td>                                                              
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </form>
         <div class="clearfix"></div>
     </div>

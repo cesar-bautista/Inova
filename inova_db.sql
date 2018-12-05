@@ -60,6 +60,27 @@ INSERT INTO `companiesbranch` (`CompanyBranchId`, `CompanyBranchName`, `TradeNam
 	(1, 'Sucursal 1', 'Sucursal 1', 'BAPC1122339A0', 'Address', '1234567890', 'bapc.cesar@gmail.com', 'http://sucursal.com.mx', 'Logo.png', 1);
 /*!40000 ALTER TABLE `companiesbranch` ENABLE KEYS */;
 
+-- Dumping structure for table inova_db.historyprospectus
+CREATE TABLE IF NOT EXISTS `historyprospectus` (
+  `HistoryProspectusId` int(11) NOT NULL AUTO_INCREMENT,
+  `ProspectuId` int(11) NOT NULL,
+  `Comments` varchar(2500) NOT NULL,
+  `RegisterDate` varchar(50) NOT NULL DEFAULT '0',
+  `StatusId` int(11) NOT NULL,
+  `UserId` int(11) NOT NULL,
+  PRIMARY KEY (`HistoryProspectusId`),
+  KEY `HistoryProspectus_prospectus` (`ProspectuId`),
+  KEY `HistoryProspectus_users` (`UserId`),
+  CONSTRAINT `HistoryProspectus_prospectus` FOREIGN KEY (`ProspectuId`) REFERENCES `prospectus` (`ProspectuId`),
+  CONSTRAINT `HistoryProspectus_users` FOREIGN KEY (`UserId`) REFERENCES `users` (`UserId`)
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
+
+-- Dumping data for table inova_db.historyprospectus: ~1 rows (approximately)
+/*!40000 ALTER TABLE `historyprospectus` DISABLE KEYS */;
+INSERT INTO `historyprospectus` (`HistoryProspectusId`, `ProspectuId`, `Comments`, `RegisterDate`, `StatusId`, `UserId`) VALUES
+	(11, 9, 'abc', '2018-11-27T04:46:49.477Z', 6, 1);
+/*!40000 ALTER TABLE `historyprospectus` ENABLE KEYS */;
+
 -- Dumping structure for table inova_db.menu
 CREATE TABLE IF NOT EXISTS `menu` (
   `MenuId` int(11) NOT NULL AUTO_INCREMENT,
@@ -286,15 +307,14 @@ CREATE TABLE IF NOT EXISTS `prospectus` (
   CONSTRAINT `prospectus_prospectusstatus` FOREIGN KEY (`StatusId`) REFERENCES `prospectusstatus` (`StatusId`),
   CONSTRAINT `prospectus_providers` FOREIGN KEY (`ProviderId`) REFERENCES `providers` (`ProviderId`),
   CONSTRAINT `prospectus_users` FOREIGN KEY (`UserId`) REFERENCES `users` (`UserId`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
 
--- Dumping data for table inova_db.prospectus: ~4 rows (approximately)
+-- Dumping data for table inova_db.prospectus: ~3 rows (approximately)
 /*!40000 ALTER TABLE `prospectus` DISABLE KEYS */;
 INSERT INTO `prospectus` (`ProspectuId`, `UserId`, `ProviderId`, `ProductId`, `StatusId`, `Comments`, `RegisterDate`, `RememberDate`) VALUES
-	(1, 1, 2, 6, 1, 'Prueba 1', '2018-11-13T06:00:00.000Z', '2018-11-17T06:00:00.000Z'),
-	(2, 1, 1, 5, 2, 'Prueba 2', '2018-11-13T06:00:00.000Z', '2018-11-13T06:00:00.000Z'),
-	(3, 1, 5, 10, 3, 'Prueba 3', '2018-11-16T06:00:00.000Z', '2018-11-17T06:00:00.000Z'),
-	(4, 1, 1, 2, 5, 'Prueba 4', '1899-12-31T06:00:00.000Z', '1899-12-31T06:00:00.000Z');
+	(9, 1, 3, 7, 6, 'Prueba de disparador', '2018-11-27T04:46:49.477Z', '2018-11-27T04:46:49.477Z'),
+	(10, 1, 1, 5, 1, 'asdcccc', '2018-11-27T05:35:57.905Z', '2018-11-27T05:35:57.905Z'),
+	(11, 1, 1, 3, 1, '123...', '2018-11-28T06:04:12.374Z', '2018-11-28T06:04:12.375Z');
 /*!40000 ALTER TABLE `prospectus` ENABLE KEYS */;
 
 -- Dumping structure for table inova_db.prospectusstatus
@@ -460,6 +480,27 @@ INSERT INTO `websiteseo` (`WebsiteId`, `GroupSeo`, `Name`, `Value`) VALUES
 	(33, 'Inicio', 'TW_IMAGE', 'imagetw.png'),
 	(34, 'Inicio', 'FB_IMAGE', 'imagefb.png');
 /*!40000 ALTER TABLE `websiteseo` ENABLE KEYS */;
+
+-- Dumping structure for trigger inova_db.TriggerAddHistoryProspectus
+SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='STRICT_ALL_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER';
+DELIMITER //
+CREATE TRIGGER `TriggerAddHistoryProspectus` BEFORE UPDATE ON `prospectus` FOR EACH ROW BEGIN
+	  INSERT INTO `historyprospectus`(
+		    ProspectuId,
+		    Comments,
+		    RegisterDate,
+		    StatusId,  
+		    UserId
+		) VALUES(
+		  OLD.ProspectuId,
+		  OLD.Comments,
+		  OLD.RememberDate,
+		  OLD.StatusId,  
+		  OLD.UserId
+		);
+END//
+DELIMITER ;
+SET SQL_MODE=@OLDTMP_SQL_MODE;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
 /*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;

@@ -203,6 +203,18 @@ function prospectuFactory(baseFactory) {
     }
 }
 
+function historyprospectuFactory(baseFactory) {
+    var child = Object.create(baseFactory);
+       return {
+        get_by_id_prospectus: function (id) {
+             child.ajaxSetup({
+                url: '/historyprospectus/get_by_id/' + id
+            });
+             return child.sendAjax();
+        }
+    }
+}
+
 function prospectustatusFactory(baseFactory) {
     var child = Object.create(baseFactory);
     return {
@@ -257,5 +269,6 @@ angular.module('inspinia')
     .factory("productFactory", productFactory)    
     .factory("providerFactory", providerFactory)
     .factory("prospectuFactory", prospectuFactory)
+    .factory("historyprospectuFactory", historyprospectuFactory)
     .factory("prospectustatusFactory", prospectustatusFactory)
     .factory("seoFactory", seoFactory);

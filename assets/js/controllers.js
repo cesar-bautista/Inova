@@ -412,7 +412,7 @@ function productsCtrl($scope, $uibModal, DTOptionsBuilder, notify, productFactor
         // .withLanguage({ "sUrl": '/assets/js/plugins/dataTables/Spanish.json' });
 };
 
-function prospectusCtrl($scope, $uibModal, DTOptionsBuilder, notify, getCurrentUser, prospectuFactory, providerFactory, productFactory, prospectustatusFactory){
+function prospectusCtrl($scope, $uibModal, DTOptionsBuilder, notify, getCurrentUser, prospectuFactory, providerFactory, productFactory, prospectustatusFactory, historyprospectuFactory){
     $scope.init = function() {
         prospectuFactory.get().then(function (res) {
             if (res.data && res.data.code == 1) {
@@ -467,6 +467,11 @@ function prospectusCtrl($scope, $uibModal, DTOptionsBuilder, notify, getCurrentU
         var edit_form = {};
 		angular.copy(prospectu, edit_form);
         $scope.prospectu_form = edit_form;
+        historyprospectuFactory.get_by_id_prospectus($scope.prospectu_form.ProspectuId).then(function (res) {
+            if (res.data && res.data.code == 1) {
+                $scope.historyprospectus = res.data.response.historyprospectus;
+            }
+        });
         
         $uibModal.open({
             templateUrl: '/partial/prospectu',
@@ -552,9 +557,7 @@ function seoCtrl($scope, seoFactory) {
         $scope.loadingDemo = true;
         seoFactory.save(seo).then(function (res) {            
             if (res.data && res.data.code == 1) {
-                //alert("Se actualizó correctamente");
                 $scope.loadingDemo = false;
-                //notify({ message:'El registro se actualizó correctamente', classes: 'alert-success', templateUrl: 'inicio/notify' });
             }
         });
     };
