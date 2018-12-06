@@ -1,6 +1,6 @@
 <nav class="navbar-default navbar-static-side" role="navigation" ng-controller="navCtrl">
     <div class="sidebar-collapse" ng-init="init();">
-        <ul side-navigation="" class="nav metismenu" id="side-menu">
+        <ul class="nav metismenu" id="side-menu">
             <li class="nav-header text-center">
                 <div class="profile-element" uib-dropdown="">
                     <img alt="Profile" class="img-circle" src="/assets/img/{{user.photo}}" />
@@ -17,7 +17,10 @@
                 </div>
             </li>
 
-            <li ng-class="{active: $state.includes('{{node.group}}')}" ng-repeat="node in menu" ng-include="'nodes_renderer.html'"></li>
+            <li ng-class="{active: $state.includes('{{node.group}}')}" 
+                ng-repeat="node in menu" ng-include="'nodes_renderer.html'"
+                side-navigation=""
+            ></li>
 
             <li>
                 <a ui-sref="login">

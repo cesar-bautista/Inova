@@ -1,7 +1,10 @@
 function baseFactory($q, $http, key_token, jwtHelper) {
     var token = localStorage.getItem(key_token);
-    var payload = jwtHelper.decodeToken(token);
-    console.log("FAC", payload.exp);
+    if(token !== null){
+        var payload = jwtHelper.decodeToken(token);
+        console.log("FAC", payload.exp);
+    }
+
     var settings = {
         method: 'POST',
         skipAuthorization: false,
