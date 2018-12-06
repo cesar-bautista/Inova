@@ -8,7 +8,7 @@ class Products_model extends CI_Model
 	
 	public function get_all()
 	{
-		$this->db->select('PD.ProductId, PD.ProductName, PD.ProductDescription, PV.ProviderId, PV.ProviderName');
+		$this->db->select('PD.*, PV.ProviderId, PV.ProviderName');
 		$this->db->from('products PD'); 
 		$this->db->join('providers PV', 'PD.ProviderId = PV.ProviderId');
 		$this->db->order_by('PD.ProductName');
@@ -18,7 +18,7 @@ class Products_model extends CI_Model
 
 	public function get_by_id($id)
 	{
-		$this->db->select('PD.ProductId, PD.ProductName, PD.ProductDescription, PV.ProviderId, PV.ProviderName');
+		$this->db->select('PD.*, PV.ProviderId, PV.ProviderName');
 		$this->db->from('products PD'); 
 		$this->db->join('providers PV', 'PD.ProviderId = PV.ProviderId');
 		$this->db->where('PD.ProductId', $id);
@@ -28,7 +28,7 @@ class Products_model extends CI_Model
 
 	public function get_by_provider($id)
 	{
-		$this->db->select('PD.ProductId, PD.ProductName, PD.ProductDescription');
+		$this->db->select('PD.*');
 		$this->db->from('products PD');
 		$this->db->where('PD.ProviderId =', $id);
 		$this->db->order_by('PD.ProductName');
@@ -43,6 +43,31 @@ class Products_model extends CI_Model
 			"ProductDescription" => $data["ProductDescription"],
 			"ProviderId" => $data["ProviderId"]
 		);
+
+		if(isset($data["ProductPrice"]))
+		{
+			$datas["ProductPrice"] = $data["ProductPrice"];
+		}
+
+		if(isset($data["ProductFair"]))
+		{
+			$datas["ProductFair"] = $data["ProductFair"];
+		}
+
+		if(isset($data["IsDigitalContent"]))
+		{
+			$datas["IsDigitalContent"] = $data["IsDigitalContent"];
+		}
+
+		if(isset($data["PriorityId"]))
+		{
+			$datas["PriorityId"] = $data["PriorityId"];
+		}
+
+		if(isset($data["FormatId"]))
+		{
+			$datas["FormatId"] = $data["FormatId"];
+		}
 		
 		if(!isset($data["ProductId"]))
 		{

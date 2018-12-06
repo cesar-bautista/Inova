@@ -317,7 +317,7 @@ function providersCtrl($scope, $uibModal, DTOptionsBuilder, notify, providerFact
         // .withLanguage({ "sUrl": '/assets/js/plugins/dataTables/Spanish.json' });
 };
 
-function productsCtrl($scope, $uibModal, DTOptionsBuilder, notify, productFactory, providerFactory){
+function productsCtrl($scope, $uibModal, DTOptionsBuilder, notify, productFactory, providerFactory, productspriorityFactory, productsformatFactory){
     $scope.init = function() {
         productFactory.get().then(function (res) {
             if (res.data && res.data.code == 1) {
@@ -330,6 +330,16 @@ function productsCtrl($scope, $uibModal, DTOptionsBuilder, notify, productFactor
         providerFactory.get().then(function (res) {
             if (res.data && res.data.code == 1) {
                 $scope.providers = res.data.response.providers;
+            }
+        });
+        productspriorityFactory.get().then(function (res) {
+            if (res.data && res.data.code == 1) {
+                $scope.priorities = res.data.response.priorities;
+            }
+        });
+        productsformatFactory.get().then(function (res) {
+            if (res.data && res.data.code == 1) {
+                $scope.formats = res.data.response.formats;
             }
         });
     };

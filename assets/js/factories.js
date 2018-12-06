@@ -154,6 +154,58 @@ function productFactory(baseFactory) {
     }
 }
 
+function productspriorityFactory(baseFactory) {
+    var child = Object.create(baseFactory);
+    return {
+        get: function () {
+            child.ajaxSetup({
+                url: '/productspriority/get'
+            });
+            return child.sendAjax();
+        },
+        save: function (branch) {
+            child.ajaxSetup({
+                url: '/productspriority/save',
+                data: branch
+            });
+            return child.sendAjax();
+        },
+        delete: function (branch) {
+            child.ajaxSetup({
+                url: '/productspriority/delete',
+                data: branch
+            });
+            return child.sendAjax();
+        }
+    }
+}
+
+function productsformatFactory(baseFactory) {
+    var child = Object.create(baseFactory);
+    return {
+        get: function () {
+            child.ajaxSetup({
+                url: '/productsformat/get'
+            });
+            return child.sendAjax();
+        },
+        save: function (branch) {
+            child.ajaxSetup({
+                url: '/productsformat/save',
+                data: branch
+            });
+            return child.sendAjax();
+        },
+        delete: function (branch) {
+            child.ajaxSetup({
+                url: '/productsformat/delete',
+                data: branch
+            });
+            return child.sendAjax();
+        }
+    }
+}
+
 function providerFactory(baseFactory) {
     var child = Object.create(baseFactory);
     return {
@@ -269,7 +321,9 @@ angular.module('inspinia')
     .factory("navFactory", navFactory)
     .factory("companyFactory", companyFactory)
     .factory("companybranchFactory", companybranchFactory)
-    .factory("productFactory", productFactory)    
+    .factory("productFactory", productFactory)
+    .factory("productspriorityFactory", productspriorityFactory)
+    .factory("productsformatFactory", productsformatFactory)
     .factory("providerFactory", providerFactory)
     .factory("prospectuFactory", prospectuFactory)
     .factory("historyprospectuFactory", historyprospectuFactory)
