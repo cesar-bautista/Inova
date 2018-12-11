@@ -41,8 +41,6 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider,
             }).then(function(res) {
                 if (res.data && res.data.code == 1) {
                     localStorage.setItem(key_token, res.data.response.token);
-                    var payload = jwtHelper.decodeToken(res.data.response.token);
-                    console.log("CON", payload.exp);
                     return res.data.response.token;
                 }
                 else
@@ -52,8 +50,6 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider,
             });
         }
         else {
-            var payload = jwtHelper.decodeToken(currentToken);
-            console.log("CON", payload.exp);
             return currentToken;
         }
     }];

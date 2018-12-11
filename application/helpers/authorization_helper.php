@@ -25,7 +25,7 @@ class AUTHORIZATION
                     }
                     else{ $message = "Usuario inválido"; $http_code = self::HTTP_PAYMENT_REQUIRED; }
                 }
-                else{ $message = "Token expidado (" . $decodedToken->exp . ")"; $http_code = self::HTTP_UNAUTHORIZED; }
+                else{ $message = "Token expidado"; $http_code = self::HTTP_UNAUTHORIZED; }
             }
             else{ $message = "Token inválido"; $http_code = self::HTTP_BAD_REQUEST; }
         }
@@ -55,8 +55,7 @@ class AUTHORIZATION
         if ($token != false && (now() < $token->exp)) {
             return $token;
         }
-        // return false;
-        return $token;
+        return false;
     }
 
     public static function decodeToken($token)

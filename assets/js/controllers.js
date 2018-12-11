@@ -15,6 +15,7 @@ function loginCtrl($scope, authFactory, $location, key_token) {
             if (res.data && res.data.code == 1) {
                 localStorage.setItem(key_token, res.data.response.token);
                 $location.path("/app/home");
+                setTimeout(function(){window.location.reload();}, 300);
             }
             else
             {
@@ -45,12 +46,9 @@ function navCtrl($scope, navFactory, key_token, jwtHelper) {
     };
 };
 
-function companiesCtrl($scope, $uibModal, DTOptionsBuilder, notify, key_token, jwtHelper, companyFactory){
+function companiesCtrl($scope, $uibModal, DTOptionsBuilder, notify, companyFactory){
     $scope.init = function() {
         companyFactory.get().then(function (res) {
-            var token = localStorage.getItem(key_token);
-            var payload = jwtHelper.decodeToken(token);
-            console.log("INI", payload.exp);
             if (res.data && res.data.code == 1) {
                 $scope.companies = res.data.response.companies;
             }

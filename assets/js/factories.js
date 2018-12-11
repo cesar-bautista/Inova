@@ -1,10 +1,4 @@
-function baseFactory($q, $http, key_token, jwtHelper) {
-    var token = localStorage.getItem(key_token);
-    if(token !== null){
-        var payload = jwtHelper.decodeToken(token);
-        console.log("FAC", payload.exp);
-    }
-
+function baseFactory($q, $http) {
     var settings = {
         method: 'POST',
         skipAuthorization: false,
@@ -15,8 +9,7 @@ function baseFactory($q, $http, key_token, jwtHelper) {
             'cache-control': 'no-cache, no-store, must-revalidate',
             'Pragma': 'no-cache',
             'Expires': '-1',
-            'If-Modified-Since': '0',
-            'Authorization': 'Bearer ' + token
+            'If-Modified-Since': '0'
         }
     };
 
@@ -31,7 +24,8 @@ function baseFactory($q, $http, key_token, jwtHelper) {
                     skipAuthorization: settings.skipAuthorization,
                     url: settings.url,
                     data: settings.data,
-                    headers: settings.headers
+                    headers: settings.headers,
+                    cache: false
                 })
                 .then(function (res) {
                     deferred.resolve(res);

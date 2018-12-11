@@ -46,9 +46,6 @@
                                 <td>{{ prospectu.RememberDate }}</td>
                                 <td>{{ prospectu.StatusName }}</td>
                                 <td class="text-center">
-                                    <button class="btn btn-info btn-circle" type="button" ng-click="editModal(prospectu);">
-                                        <i class="fa fa-eye"></i>
-                                    </button>
                                     <button class="btn btn-warning btn-circle" type="button" ng-click="editModal(prospectu);">
                                         <i class="fa fa-pencil"></i>
                                     </button>
