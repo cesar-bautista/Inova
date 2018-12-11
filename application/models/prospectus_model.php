@@ -11,8 +11,8 @@ class Prospectus_model extends CI_Model
 		$this->db->select('PP.*, US.UserName, PV.ProviderName, PD.ProductName, PS.StatusName');
 		$this->db->from('prospectus PP'); 
 		$this->db->join('users US', 'US.UserId = PP.UserId');
-		$this->db->join('providers PV', 'PV.ProviderId = PP.ProviderId');
 		$this->db->join('products PD', 'PD.ProductId = PP.ProductId');
+		$this->db->join('providers PV', 'PV.ProviderId = PD.ProviderId');
 		$this->db->join('prospectusstatus PS', 'PS.StatusId = PP.StatusId');		
 		$this->db->order_by('PP.ProspectuId');
 		$query = $this->db->get();
@@ -25,8 +25,8 @@ class Prospectus_model extends CI_Model
 		$this->db->select('PP.*, US.UserName, PV.ProviderName, PD.ProductName, PS.StatusName');
 		$this->db->from('prospectus PP'); 
 		$this->db->join('users US', 'US.UserId = PP.UserId');
-		$this->db->join('providers PV', 'PV.ProviderId = PP.ProviderId');
 		$this->db->join('products PD', 'PD.ProductId = PP.ProductId');
+		$this->db->join('providers PV', 'PV.ProviderId = PD.ProviderId');
 		$this->db->join('prospectusstatus PS', 'PS.StatusId = PP.StatusId');		
 		$this->db->where('PP.ProspectuId', $id);
 		$query = $this->db->get();

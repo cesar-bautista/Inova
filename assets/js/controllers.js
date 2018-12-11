@@ -400,6 +400,12 @@ function productsCtrl($scope, $uibModal, DTOptionsBuilder, notify, productFactor
 	}
 
     $scope.dtOptions = DTOptionsBuilder.newOptions()
+        // .withOption('ajax', {
+        //     dataSrc: 'data',
+        //     url: '/users.json',
+        //     type: 'POST'
+        // })
+        // .withOption('processing', true)
         .withDOM('<"html5buttons"B>lTfgitp')
         .withButtons([
             {extend: 'copy'},
@@ -523,6 +529,7 @@ function prospectusCtrl($scope, $uibModal, DTOptionsBuilder, notify, getCurrentU
 
     $scope.dtOptions = DTOptionsBuilder.newOptions()
         .withDOM('<"html5buttons"B>lTfgitp')
+        .withOption('processing', true)
         .withButtons([
             {extend: 'copy'},
             {extend: 'csv'},
