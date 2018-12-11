@@ -309,6 +309,56 @@ function seoFactory(baseFactory) {
     }
 }
 
+function dtOptions (DTOptionsBuilder) {
+    return {
+      option1: function(){
+        return DTOptionsBuilder.newOptions()
+        .withDOM('<"html5buttons"B>lTfgitp')
+        .withOption('processing', true)
+        .withOption('responsive', true)
+        .withButtons([
+            {extend: 'copy', text: 'Copiar'},
+            {extend: 'csv'},
+            {extend: 'excel'},
+            {extend: 'pdf'},
+            {extend: 'print', text: 'Imprimir', 
+                customize: function (win){
+                    $(win.document.body).addClass('white-bg');
+                    $(win.document.body).css('font-size', '10px');
+
+                    $(win.document.body).find('table')
+                        .addClass('compact')
+                        .css('font-size', 'inherit');
+                }
+            }
+        ])
+        .withLanguage({
+              "sEmptyTable":     "No hay información disponible",
+              "sInfo":           "Mostrando _START_ a _END_ de _TOTAL_",
+              "sInfoEmpty":      "Mostrando 0 a 0 de 0",
+              "sInfoFiltered":   "(filtrada de _MAX_)",
+              "sInfoPostFix":    "",
+              "sInfoThousands":  ",",
+              "sLengthMenu":     "Mostrando _MENU_",
+              "sLoadingRecords": "Procesando...",
+              "sProcessing":     "Procesando...",
+              "sSearch":         "Buscar: ",
+              "sZeroRecords":    "No se encuentra coincidencias en la búsqueda",
+              "oPaginate": {
+                  "sFirst":      '<i class="fa fa-angle-double-left"></i>',
+                  "sLast":       '<i class="fa fa-angle-double-right"></i>',
+                  "sNext":       '<i class="fa fa-angle-right"></i>',
+                  "sPrevious":   '<i class="fa fa-angle-left"></i>'
+              },
+              "oAria": {
+                  "sSortAscending":  ": activar para ordenar columna ascendentemente",
+                  "sSortDescending": ": activar para ordenar columna descendentemente"
+                }
+          })
+        }
+    }
+}
+
 angular.module('inspinia')
     .factory("baseFactory", baseFactory)
     .factory("authFactory", authFactory)
@@ -322,4 +372,5 @@ angular.module('inspinia')
     .factory("prospectuFactory", prospectuFactory)
     .factory("historyprospectuFactory", historyprospectuFactory)
     .factory("prospectustatusFactory", prospectustatusFactory)
-    .factory("seoFactory", seoFactory);
+    .factory("seoFactory", seoFactory)
+    .factory("dtOptions", dtOptions);

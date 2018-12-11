@@ -227,7 +227,7 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider,
             url: "/prospectos",
             templateUrl: "/partial/prospectus",
             controller: 'prospectusCtrl',
-            data: { pageTitle: 'Prospectos' },
+            data: { pageTitle: 'Seguimiento' },
             resolve: {
                 loadPlugin: function ($ocLazyLoad) {
                     return $ocLazyLoad.load([

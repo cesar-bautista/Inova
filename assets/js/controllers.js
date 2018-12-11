@@ -46,7 +46,7 @@ function navCtrl($scope, navFactory, key_token, jwtHelper) {
     };
 };
 
-function companiesCtrl($scope, $uibModal, DTOptionsBuilder, notify, companyFactory){
+function companiesCtrl($scope, $uibModal, dtOptions, notify, companyFactory){
     $scope.init = function() {
         companyFactory.get().then(function (res) {
             if (res.data && res.data.code == 1) {
@@ -112,28 +112,10 @@ function companiesCtrl($scope, $uibModal, DTOptionsBuilder, notify, companyFacto
         });
 	}
 
-    $scope.dtOptions = DTOptionsBuilder.newOptions()
-        .withDOM('<"html5buttons"B>lTfgitp')
-        .withButtons([
-            {extend: 'copy'},
-            {extend: 'csv'},
-            {extend: 'excel', title: 'ExampleFile'},
-            {extend: 'pdf', title: 'ExampleFile'},
-            {extend: 'print',
-                customize: function (win){
-                    $(win.document.body).addClass('white-bg');
-                    $(win.document.body).css('font-size', '10px');
-
-                    $(win.document.body).find('table')
-                        .addClass('compact')
-                        .css('font-size', 'inherit');
-                }
-            }
-        ]);
-        // .withLanguage({ "sUrl": '/assets/js/plugins/dataTables/Spanish.json' });
+    $scope.dtOptions = dtOptions.option1();
 };
 
-function companiesbranchCtrl($scope, $uibModal, DTOptionsBuilder, notify, companybranchFactory, companyFactory){
+function companiesbranchCtrl($scope, $uibModal, dtOptions, notify, companybranchFactory, companyFactory){
     $scope.init = function() {
         companybranchFactory.get().then(function (res) {
             if (res.data && res.data.code == 1) {
@@ -207,28 +189,10 @@ function companiesbranchCtrl($scope, $uibModal, DTOptionsBuilder, notify, compan
         });
 	}
 
-    $scope.dtOptions = DTOptionsBuilder.newOptions()
-        .withDOM('<"html5buttons"B>lTfgitp')
-        .withButtons([
-            {extend: 'copy'},
-            {extend: 'csv'},
-            {extend: 'excel', title: 'ExampleFile'},
-            {extend: 'pdf', title: 'ExampleFile'},
-            {extend: 'print',
-                customize: function (win){
-                    $(win.document.body).addClass('white-bg');
-                    $(win.document.body).css('font-size', '10px');
-
-                    $(win.document.body).find('table')
-                        .addClass('compact')
-                        .css('font-size', 'inherit');
-                }
-            }
-        ]);
-        // .withLanguage({ "sUrl": '/assets/js/plugins/dataTables/Spanish.json' });
+    $scope.dtOptions = dtOptions.option1();
 };
 
-function providersCtrl($scope, $uibModal, DTOptionsBuilder, notify, providerFactory){
+function providersCtrl($scope, $uibModal, dtOptions, notify, providerFactory){
     $scope.init = function() {
         providerFactory.get().then(function (res) {
             if (res.data && res.data.code == 1) {
@@ -294,28 +258,10 @@ function providersCtrl($scope, $uibModal, DTOptionsBuilder, notify, providerFact
         });
 	}
 
-    $scope.dtOptions = DTOptionsBuilder.newOptions()
-        .withDOM('<"html5buttons"B>lTfgitp')
-        .withButtons([
-            {extend: 'copy'},
-            {extend: 'csv'},
-            {extend: 'excel', title: 'ExampleFile'},
-            {extend: 'pdf', title: 'ExampleFile'},
-            {extend: 'print',
-                customize: function (win){
-                    $(win.document.body).addClass('white-bg');
-                    $(win.document.body).css('font-size', '10px');
-
-                    $(win.document.body).find('table')
-                        .addClass('compact')
-                        .css('font-size', 'inherit');
-                }
-            }
-        ]);
-        // .withLanguage({ "sUrl": '/assets/js/plugins/dataTables/Spanish.json' });
+    $scope.dtOptions = dtOptions.option1();
 };
 
-function productsCtrl($scope, $uibModal, DTOptionsBuilder, notify, productFactory, providerFactory, productspriorityFactory, productsformatFactory){
+function productsCtrl($scope, $uibModal, dtOptions, notify, productFactory, providerFactory, productspriorityFactory, productsformatFactory){
     $scope.init = function() {
         productFactory.get().then(function (res) {
             if (res.data && res.data.code == 1) {
@@ -399,34 +345,11 @@ function productsCtrl($scope, $uibModal, DTOptionsBuilder, notify, productFactor
         });
 	}
 
-    $scope.dtOptions = DTOptionsBuilder.newOptions()
-        // .withOption('ajax', {
-        //     dataSrc: 'data',
-        //     url: '/users.json',
-        //     type: 'POST'
-        // })
-        // .withOption('processing', true)
-        .withDOM('<"html5buttons"B>lTfgitp')
-        .withButtons([
-            {extend: 'copy'},
-            {extend: 'csv'},
-            {extend: 'excel', title: 'ExampleFile'},
-            {extend: 'pdf', title: 'ExampleFile'},
-            {extend: 'print',
-                customize: function (win){
-                    $(win.document.body).addClass('white-bg');
-                    $(win.document.body).css('font-size', '10px');
-
-                    $(win.document.body).find('table')
-                        .addClass('compact')
-                        .css('font-size', 'inherit');
-                }
-            }
-        ]);
-        // .withLanguage({ "sUrl": '/assets/js/plugins/dataTables/Spanish.json' });
+    $scope.dtOptions = dtOptions.option1();
+    
 };
 
-function prospectusCtrl($scope, $uibModal, DTOptionsBuilder, notify, getCurrentUser, prospectuFactory, providerFactory, productFactory, prospectustatusFactory, historyprospectuFactory){
+function prospectusCtrl($scope, $uibModal, dtOptions, notify, getCurrentUser, prospectuFactory, providerFactory, productFactory, prospectustatusFactory, historyprospectuFactory){
     $scope.init = function() {
         prospectuFactory.get().then(function (res) {
             if (res.data && res.data.code == 1) {
@@ -527,25 +450,7 @@ function prospectusCtrl($scope, $uibModal, DTOptionsBuilder, notify, getCurrentU
         });
 	}
 
-    $scope.dtOptions = DTOptionsBuilder.newOptions()
-        .withDOM('<"html5buttons"B>lTfgitp')
-        .withOption('processing', true)
-        .withButtons([
-            {extend: 'copy'},
-            {extend: 'csv'},
-            {extend: 'excel', title: 'ExampleFile'},
-            {extend: 'pdf', title: 'ExampleFile'},
-            {extend: 'print',
-                customize: function (win){
-                    $(win.document.body).addClass('white-bg');
-                    $(win.document.body).css('font-size', '10px');
-
-                    $(win.document.body).find('table')
-                        .addClass('compact')
-                        .css('font-size', 'inherit');
-                }
-            }
-        ]);
+    $scope.dtOptions = dtOptions.option1();
 };
 
 function modalCtrl ($scope, $uibModalInstance) {
